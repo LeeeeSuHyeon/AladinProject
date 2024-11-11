@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct BookResult : Decodable {
+public struct BookResult : Decodable {
     let item : [Book]
     
     enum CodingKeys: CodingKey {
         case item
     }
     
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.item = try container.decode([Book].self, forKey: .item)
     }
 }
 
 
-struct Book : Decodable {
+public struct Book : Decodable {
     let title : String
     let author : String
     let publisher : String
@@ -38,7 +38,7 @@ struct Book : Decodable {
         case linkURL = "link"
     }
     
-    init(from decoder: any Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.title = try container.decode(String.self, forKey: .title)
         self.author = try container.decode(String.self, forKey: .author)
