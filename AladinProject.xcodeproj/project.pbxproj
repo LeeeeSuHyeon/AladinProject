@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CB2810072CE205590047DCF4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810062CE205590047DCF4 /* Then */; };
+		CB28100A2CE2056E0047DCF4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810092CE2056E0047DCF4 /* Alamofire */; };
+		CB28100D2CE2057B0047DCF4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB28100C2CE2057B0047DCF4 /* SnapKit */; };
+		CB2810102CE2058F0047DCF4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CB28100F2CE2058F0047DCF4 /* RxCocoa */; };
+		CB2810122CE2058F0047DCF4 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810112CE2058F0047DCF4 /* RxRelay */; };
+		CB2810152CE205B50047DCF4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810142CE205B50047DCF4 /* Kingfisher */; };
+		CB2810372CE206020047DCF4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CB2810362CE206020047DCF4 /* Config.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CB280FDB2CE1F9B50047DCF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +37,7 @@
 		CB280FC12CE1F9B20047DCF4 /* AladinProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AladinProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB280FDA2CE1F9B50047DCF4 /* AladinProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AladinProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB280FE42CE1F9B50047DCF4 /* AladinProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AladinProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB2810362CE206020047DCF4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +76,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB2810152CE205B50047DCF4 /* Kingfisher in Frameworks */,
+				CB2810122CE2058F0047DCF4 /* RxRelay in Frameworks */,
+				CB28100D2CE2057B0047DCF4 /* SnapKit in Frameworks */,
+				CB2810072CE205590047DCF4 /* Then in Frameworks */,
+				CB2810102CE2058F0047DCF4 /* RxCocoa in Frameworks */,
+				CB28100A2CE2056E0047DCF4 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +105,7 @@
 		CB280FB82CE1F9B20047DCF4 = {
 			isa = PBXGroup;
 			children = (
+				CB2810362CE206020047DCF4 /* Config.xcconfig */,
 				CB280FC32CE1F9B20047DCF4 /* AladinProject */,
 				CB280FDD2CE1F9B50047DCF4 /* AladinProjectTests */,
 				CB280FE72CE1F9B50047DCF4 /* AladinProjectUITests */,
@@ -125,6 +143,12 @@
 			);
 			name = AladinProject;
 			packageProductDependencies = (
+				CB2810062CE205590047DCF4 /* Then */,
+				CB2810092CE2056E0047DCF4 /* Alamofire */,
+				CB28100C2CE2057B0047DCF4 /* SnapKit */,
+				CB28100F2CE2058F0047DCF4 /* RxCocoa */,
+				CB2810112CE2058F0047DCF4 /* RxRelay */,
+				CB2810142CE205B50047DCF4 /* Kingfisher */,
 			);
 			productName = AladinProject;
 			productReference = CB280FC12CE1F9B20047DCF4 /* AladinProject.app */;
@@ -208,6 +232,13 @@
 			);
 			mainGroup = CB280FB82CE1F9B20047DCF4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CB2810052CE205590047DCF4 /* XCRemoteSwiftPackageReference "Then" */,
+				CB2810082CE2056E0047DCF4 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				CB28100B2CE2057B0047DCF4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CB28100E2CE2058F0047DCF4 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				CB2810132CE205B50047DCF4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CB280FC22CE1F9B20047DCF4 /* Products */;
 			projectDirPath = "";
@@ -225,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB2810372CE206020047DCF4 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +316,7 @@
 /* Begin XCBuildConfiguration section */
 		CB280FEE2CE1F9B50047DCF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -311,6 +344,7 @@
 		};
 		CB280FEF2CE1F9B50047DCF4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -338,6 +372,7 @@
 		};
 		CB280FF02CE1F9B50047DCF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -401,6 +436,7 @@
 		};
 		CB280FF12CE1F9B50047DCF4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -457,6 +493,7 @@
 		};
 		CB280FF32CE1F9B50047DCF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -476,6 +513,7 @@
 		};
 		CB280FF42CE1F9B50047DCF4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -495,6 +533,7 @@
 		};
 		CB280FF62CE1F9B50047DCF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -512,6 +551,7 @@
 		};
 		CB280FF72CE1F9B50047DCF4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB2810362CE206020047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -567,6 +607,82 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB2810052CE205590047DCF4 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		CB2810082CE2056E0047DCF4 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
+		CB28100B2CE2057B0047DCF4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CB28100E2CE2058F0047DCF4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+		CB2810132CE205B50047DCF4 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB2810062CE205590047DCF4 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2810052CE205590047DCF4 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		CB2810092CE2056E0047DCF4 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2810082CE2056E0047DCF4 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		CB28100C2CE2057B0047DCF4 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB28100B2CE2057B0047DCF4 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CB28100F2CE2058F0047DCF4 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB28100E2CE2058F0047DCF4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		CB2810112CE2058F0047DCF4 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB28100E2CE2058F0047DCF4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		CB2810142CE205B50047DCF4 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2810132CE205B50047DCF4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB280FB92CE1F9B20047DCF4 /* Project object */;
 }
