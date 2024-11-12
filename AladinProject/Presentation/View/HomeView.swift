@@ -18,15 +18,35 @@ class HomeView : UIView {
         imgView.frame = CGRect(x: 0, y: 0, width: 10, height: 0)
         text.leftView = imgView
         text.leftViewMode = .always
-        text.backgroundColor = .systemGray
+        text.backgroundColor = .systemGray5
         text.layer.cornerRadius = 10
+        text.tintColor = .black
     }
     
-    let collectionView = UICollectionView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .white
+        setUI()
+    }
+    
+    private func setUI(){
+        addSubview(textSearch)
+        addSubview(collectionView)
+        
+        textSearch.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(40)
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(textSearch.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(8)
+        }
     }
     
     required init?(coder: NSCoder) {

@@ -11,6 +11,7 @@ import RxSwift
 class HomeViewController: UIViewController {
     let viewModel : HomeViewModelProtocol
     let disposeBag = DisposeBag()
+    let homeView : HomeView
     
     init() {
         let homeSession = HomeSession()
@@ -19,6 +20,7 @@ class HomeViewController: UIViewController {
         let homeRP = HomeRespository(network: homeNetwork)
         let homeUC = HomeUsecase(repository: homeRP)
         self.viewModel = HomeViewModel(usecase: homeUC)
+        self.homeView = HomeView()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,7 +31,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = .red
+
+        view = homeView
 
         
         bindViewModel()
