@@ -18,11 +18,13 @@ class HomeBestSellerCollectionViewCell: UICollectionViewCell {
     let lblTitle = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 14, weight: .semibold)
         lbl.numberOfLines = 1
+        lbl.textAlignment = .center
     }
     
     let lblAuthor = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 14, weight: .semibold)
         lbl.numberOfLines = 1
+        lbl.textAlignment = .center
     }
     
     override init(frame: CGRect) {
@@ -38,7 +40,7 @@ class HomeBestSellerCollectionViewCell: UICollectionViewCell {
         
         imgView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(150)
+            make.height.equalTo(200)
         }
         
         lblTitle.snp.makeConstraints { make in

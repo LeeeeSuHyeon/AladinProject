@@ -23,6 +23,8 @@ enum Item : Hashable {
 
 
 class HomeView : UIView {
+    private var dataSource : UICollectionViewDiffableDataSource<Section, Item>?
+    
     let textSearch = UITextField().then { text in
         text.placeholder = "원하시는 책을 검색해주세요."
         text.font = .systemFont(ofSize: 14)
@@ -70,10 +72,12 @@ class HomeView : UIView {
         config.interSectionSpacing = 14
         
         return UICollectionViewCompositionalLayout(sectionProvider: { [weak self] sectionIndex, _ in
-            switch sectionIndex {
-            case 0 : return self?.createBannerSection()
-            case 1 : return self?.createFlowSection()
-            case 2 : return self?.createDoubleSection()
+            let section = self?.dataSource?.sectionIdentifier(for: sectionIndex)
+            print(section)
+            switch section {
+            case .banner : return self?.createBannerSection()
+            case .flow : return self?.createFlowSection()
+            case .double : return self?.createDoubleSection()
             default:
                 return self?.createBannerSection()
             }
@@ -104,16 +108,25 @@ class HomeView : UIView {
     }
     
     private func createDoubleSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalHeight(1.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(280))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        
+        section.orthogonalScrollingBehavior = .none
+
         return section
     }
+    
+    public func config(dataSource : UICollectionViewDiffableDataSource<Section, Item>) {
+        self.dataSource = dataSource
+    }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

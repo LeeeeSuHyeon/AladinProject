@@ -59,6 +59,10 @@ class HomeViewController: UIViewController {
             }
             
         })
+        if let datasource = datasource {
+            homeView.config(dataSource: datasource)
+        }
+        
     }
     
     private func bindView(){
@@ -67,25 +71,42 @@ class HomeViewController: UIViewController {
     
     private func bindViewModel(){
         let output = viewModel.transfrom(input: HomeViewModel.Input(viewDidLoad: Observable.just(Void())))
-        output.bestSellerList.bind(onNext: { bookList in
-            print(bookList)
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-            let section = Section.double
-            let items = bookList.map {Item.bestSeller($0)}
-            snapshot.appendSections([section])
-            snapshot.appendItems(items, toSection: section)
-            self.datasource?.apply(snapshot)
-        }).disposed(by: disposeBag)
         
-        output.newBookList.bind { bookList in
-            print(bookList)
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-            let section = Section.banner
-            let items = bookList.map{Item.newBook($0)}
-            snapshot.appendSections([section])
-            snapshot.appendItems(items, toSection: section)
-            self.datasource?.apply(snapshot)
+        let _ = Observable.combineLatest(output.bestSellerList, output.newBookList).bind {[weak self] bestSellerList, newBookList in
+            var snapShot = NSDiffableDataSourceSnapshot<Section, Item>()
+            
+            let bannerSection = Section.banner
+            let bannerItem = newBookList.map{Item.newBook($0)}
+            
+            let doubleSection = Section.double
+            let doubleItem = bestSellerList.map{Item.bestSeller($0)}
+            
+            snapShot.appendSections([bannerSection, doubleSection])
+            snapShot.appendItems(doubleItem, toSection: doubleSection)
+            snapShot.appendItems(bannerItem, toSection: bannerSection)
+            
+            self?.datasource?.apply(snapShot)
         }.disposed(by: disposeBag)
+        
+//        output.bestSellerList.bind(onNext: { bookList in
+//            print(bookList)
+//            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+//            let section = Section.double
+//            let items = bookList.map {Item.bestSeller($0)}
+//            snapshot.appendSections([section])
+//            snapshot.appendItems(items, toSection: section)
+//            self.datasource?.apply(snapshot)
+//        }).disposed(by: disposeBag)
+//        
+//        output.newBookList.bind { bookList in
+//            print(bookList)
+//            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+//            let section = Section.banner
+//            let items = bookList.map{Item.newBook($0)}
+//            snapshot.appendSections([section])
+//            snapshot.appendItems(items, toSection: section)
+//            self.datasource?.apply(snapshot)
+//        }.disposed(by: disposeBag)
     }
 
 //    private func test(){
