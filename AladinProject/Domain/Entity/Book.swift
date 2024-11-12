@@ -7,6 +7,11 @@
 
 import Foundation
 
+public struct BookList {
+    let newBook : [Book]
+    let bestSeller : [Book]
+}
+
 public struct BookResult : Decodable {
     let item : [Book]
     

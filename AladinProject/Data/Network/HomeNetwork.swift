@@ -18,7 +18,6 @@ final class HomeNetwork : HomeNetworkProtocol {
         self.manage = manage
     }
     
-
     func fetchBookList(type: queryType) async -> Result<BookResult, NetworkError> {
         let key = Bundle.main.infoDictionary?["APIKey"] as? String ?? ""
         let url = "ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
