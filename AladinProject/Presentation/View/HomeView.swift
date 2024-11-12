@@ -9,6 +9,18 @@ import UIKit
 import Then
 import SnapKit
 
+enum Section : Hashable{
+    case banner
+    case flow
+    case double
+}
+
+enum Item : Hashable {
+    case newBook(Book)
+    case category(Category)
+    case bestSeller(Book)
+}
+
 
 class HomeView : UIView {
     let textSearch = UITextField().then { text in
@@ -23,7 +35,11 @@ class HomeView : UIView {
         text.tintColor = .black
     }
     
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
+        view.register(HomeNewBookCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewBookCollectionViewCell.id)
+        view.register(HomeCategoryCollectionViewCell.self, forCellWithReuseIdentifier: HomeCategoryCollectionViewCell.id)
+        view.register(HomeBestSellerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBestSellerCollectionViewCell.id)
+    }
     
     
     override init(frame: CGRect) {
@@ -47,6 +63,56 @@ class HomeView : UIView {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(8)
         }
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout{
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 14
+        
+        return UICollectionViewCompositionalLayout(sectionProvider: { [weak self] sectionIndex, _ in
+            switch sectionIndex {
+            case 0 : return self?.createBannerSection()
+            case 1 : return self?.createFlowSection()
+            case 2 : return self?.createDoubleSection()
+            default:
+                return self?.createBannerSection()
+            }
+        }, configuration: config)
+    }
+    
+    private func createBannerSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom:0, trailing: 15)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(400))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        return section
+    }
+    
+    private func createFlowSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(100))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 5)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        return section
+    }
+    
+    private func createDoubleSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        return section
     }
     
     required init?(coder: NSCoder) {

@@ -1,22 +1,25 @@
 //
-//  HomeCategoryCollectionViewCell.swift
+//  HomeNewBookCollectionViewCell.swift
 //  AladinProject
 //
 //  Created by 이수현 on 11/12/24.
 //
 
 import UIKit
+import Kingfisher
 
-class HomeCategoryCollectionViewCell: UICollectionViewCell {
-    static let id = "HomeCategoryCollectionViewCell"
+class HomeNewBookCollectionViewCell: UICollectionViewCell {
+    static let id = "HomeNewBookCollectionViewCell"
     
     let imgView = UIImageView().then { view in
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
         view.clipsToBounds = true
     }
     
     let lblTitle = UILabel().then { lbl in
-        lbl.font = .systemFont(ofSize: 10, weight: .bold)
+        lbl.backgroundColor = .white
+        lbl.textColor = .black
+        lbl.font = .systemFont(ofSize: 18, weight: .bold)
         lbl.numberOfLines = 1
     }
     
@@ -26,23 +29,22 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         setUI()
     }
     
-    private func setUI(){
+    private func setUI() {
         addSubview(imgView)
         addSubview(lblTitle)
         
         imgView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(70)
+            make.edges.equalToSuperview()
         }
-        
         lblTitle.snp.makeConstraints { make in
-            make.top.equalTo(imgView.snp.bottom).offset(7)
-            make.centerX.equalToSuperview()
+            make.leading.equalTo(imgView.snp.leading).inset(15)
+            make.trailing.equalTo(imgView.snp.trailing).inset(15)
+            make.bottom.equalTo(imgView.snp.bottom).inset(15)
         }
     }
     
-    public func config(imgURL : String, title : String) {
-        imgView.kf.setImage(with: URL(string: imgURL))
+    public func config(imageURL : String, title : String) {
+        imgView.kf.setImage(with: URL(string: imageURL))
         lblTitle.text = title
     }
     

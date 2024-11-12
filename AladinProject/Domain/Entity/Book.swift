@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct BookList {
-    let newBook : [Book]
-    let bestSeller : [Book]
+public struct Category : Hashable {
+    let image : String
+    let title : String
 }
 
 public struct BookResult : Decodable {
@@ -26,7 +26,7 @@ public struct BookResult : Decodable {
 }
 
 
-public struct Book : Decodable {
+public struct Book : Decodable, Hashable {
     let title : String
     let author : String
     let publisher : String

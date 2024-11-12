@@ -13,6 +13,8 @@ class HomeViewController: UIViewController {
     let disposeBag = DisposeBag()
     let homeView : HomeView
     
+    private var datasource : UICollectionViewDiffableDataSource<Section, Item>?
+    
     init() {
         let homeSession = HomeSession()
         let networkManager = NetworkManager(session: homeSession)
@@ -34,18 +36,55 @@ class HomeViewController: UIViewController {
 
         view = homeView
 
-        
+        setDataSource()
         bindViewModel()
+        bindView()
+    }
+    
+    private func setDataSource(){
+        datasource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
+            switch item {
+            case .newBook(let book):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewBookCollectionViewCell.id, for: indexPath) as? HomeNewBookCollectionViewCell else {return UICollectionViewCell()}
+                cell.config(imageURL: book.coverURL, title: book.title)
+                return cell
+            case .category(let category):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCategoryCollectionViewCell.id, for: indexPath) as? HomeCategoryCollectionViewCell else {return UICollectionViewCell()}
+                cell.config(imgURL: category.image, title: category.title)
+                return cell
+            case .bestSeller(let book) :
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBestSellerCollectionViewCell.id, for: indexPath) as? HomeBestSellerCollectionViewCell else {return UICollectionViewCell()}
+                cell.config(imgURL: book.coverURL, title: book.title, author: book.author)
+                return cell
+            }
+            
+        })
+    }
+    
+    private func bindView(){
+        
     }
     
     private func bindViewModel(){
         let output = viewModel.transfrom(input: HomeViewModel.Input(viewDidLoad: Observable.just(Void())))
         output.bestSellerList.bind(onNext: { bookList in
             print(bookList)
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            let section = Section.double
+            let items = bookList.map {Item.bestSeller($0)}
+            snapshot.appendSections([section])
+            snapshot.appendItems(items, toSection: section)
+            self.datasource?.apply(snapshot)
         }).disposed(by: disposeBag)
         
         output.newBookList.bind { bookList in
             print(bookList)
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            let section = Section.banner
+            let items = bookList.map{Item.newBook($0)}
+            snapshot.appendSections([section])
+            snapshot.appendItems(items, toSection: section)
+            self.datasource?.apply(snapshot)
         }.disposed(by: disposeBag)
     }
 

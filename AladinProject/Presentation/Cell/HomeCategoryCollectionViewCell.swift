@@ -1,5 +1,5 @@
 //
-//  HomeBestSellerCollectionViewCell.swift
+//  HomeCategoryCollectionViewCell.swift
 //  AladinProject
 //
 //  Created by 이수현 on 11/12/24.
@@ -7,21 +7,16 @@
 
 import UIKit
 
-class HomeBestSellerCollectionViewCell: UICollectionViewCell {
-    static let id = "HomeBestSellerCollectionViewCell"
+class HomeCategoryCollectionViewCell: UICollectionViewCell {
+    static let id = "HomeCategoryCollectionViewCell"
     
     let imgView = UIImageView().then { view in
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
     }
     
     let lblTitle = UILabel().then { lbl in
-        lbl.font = .systemFont(ofSize: 14, weight: .semibold)
-        lbl.numberOfLines = 1
-    }
-    
-    let lblAuthor = UILabel().then { lbl in
-        lbl.font = .systemFont(ofSize: 14, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 10, weight: .bold)
         lbl.numberOfLines = 1
     }
     
@@ -37,26 +32,19 @@ class HomeBestSellerCollectionViewCell: UICollectionViewCell {
         
         imgView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(150)
+            make.height.equalTo(70)
         }
         
         lblTitle.snp.makeConstraints { make in
-            make.top.equalTo(imgView.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
-        }
-        
-        lblAuthor.snp.makeConstraints { make in
-            make.top.equalTo(lblTitle.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(imgView.snp.bottom).offset(7)
+            make.leading.trailing.equalToSuperview()
         }
     }
     
-    public func config(imgURL : String, title : String, author : String) {
+    public func config(imgURL : String, title : String) {
         imgView.kf.setImage(with: URL(string: imgURL))
         lblTitle.text = title
-        lblAuthor.text = author
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
