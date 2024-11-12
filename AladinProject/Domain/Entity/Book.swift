@@ -33,7 +33,7 @@ public struct Book : Decodable {
         case title
         case author
         case publisher
-        case price = "pricestandard"
+        case price = "priceStandard"
         case coverURL = "cover"
         case linkURL = "link"
     }
