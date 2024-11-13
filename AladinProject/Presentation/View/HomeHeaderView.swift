@@ -29,7 +29,7 @@ class HomeHeaderView: UICollectionReusableView {
         lblHeader.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(underlineView.snp.bottom).offset(10)
+            make.top.equalTo(underlineView.snp.bottom).offset(20)
         }
         
         underlineView.snp.makeConstraints { make in

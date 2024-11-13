@@ -34,7 +34,6 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         
         imgView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.width.equalTo(40)
             make.height.equalTo(70)
         }
         
