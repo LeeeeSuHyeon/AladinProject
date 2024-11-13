@@ -25,7 +25,7 @@ public class DetailUsecase : DetailUsecaseProtocol {
     }
     
     public func purchaseItem() {
-        repository.purchaseItem()
+        print("DetailUsecase - purchaseItem()")
     }
     
     public func saveFavoriteItem(item: Product) -> Result<Bool, CoreDataError> {
@@ -37,7 +37,7 @@ public class DetailUsecase : DetailUsecaseProtocol {
     }
     
     public func linkItem(url: String) {
-        repository.linkItem(url: url)
+        print("DetailUsecase - linkItem()")
     }
     
     

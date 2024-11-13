@@ -7,6 +7,11 @@
 
 import Foundation
 
+public protocol DetailCoreDataProtocol {
+    func saveFavoriteItem(item : Product) -> Result<Bool, CoreDataError>
+    func deleteFavoriteItem(id : Int) -> Result<Bool, CoreDataError>
+}
+
 class DetailCoreData {
     
 }
