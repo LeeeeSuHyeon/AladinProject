@@ -26,7 +26,6 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .white
         setUI()
-        
     }
     
     private func setUI(){

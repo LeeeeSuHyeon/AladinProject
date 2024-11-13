@@ -63,6 +63,31 @@ class HomeViewController: UIViewController {
             homeView.config(dataSource: datasource)
         }
         
+        datasource?.supplementaryViewProvider = {[weak self] (collectionView, kind, indexPath) in
+            
+            let section = self?.datasource?.sectionIdentifier(for: indexPath.section)
+            
+            switch section {
+            case .banner(let header):
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                (headerView as? HomeHeaderView)?.config(header: header)
+                return headerView
+            case .flow(let header):
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                (headerView as? HomeHeaderView)?.config(header: header)
+                return headerView
+            case .double(let header):
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                (headerView as? HomeHeaderView)?.config(header: header)
+                return headerView
+            default:
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                (headerView as? HomeHeaderView)?.config(header: "헤더 없음")
+                return headerView
+            }
+            
+        }
+        
     }
     
     private func bindView(){
@@ -75,13 +100,13 @@ class HomeViewController: UIViewController {
         let _ = Observable.combineLatest(output.bestSellerList, output.newBookList).bind {[weak self] bestSellerList, newBookList in
             var snapShot = NSDiffableDataSourceSnapshot<Section, Item>()
             
-            let bannerSection = Section.banner
+            let bannerSection = Section.banner("신간 도서")
             let bannerItem = newBookList.map{Item.newBook($0)}
             
-            let doubleSection = Section.double
+            let doubleSection = Section.double("인기 도서")
             let doubleItem = bestSellerList.map{Item.bestSeller($0)}
             
-            let flowSection = Section.flow
+            let flowSection = Section.flow("카테고리")
             let flowItem = Category.dummy().map{Item.category($0)}
             
             snapShot.appendSections([bannerSection, flowSection, doubleSection])
