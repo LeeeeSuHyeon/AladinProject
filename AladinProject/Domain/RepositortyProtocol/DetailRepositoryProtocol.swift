@@ -11,22 +11,3 @@ public protocol DetailRepositoryProtocol {
     func saveFavoriteItem(item : Product) -> Result<Bool, CoreDataError>
     func deleteFavoriteItem(id : Int) -> Result<Bool, CoreDataError>
 }
-
-
-public class DetailRepository : DetailRepositoryProtocol {
-    
-    let coreData : DetailCoreDataProtocol
-    
-    init(coreData: DetailCoreDataProtocol) {
-        self.coreData = coreData
-    }
-    
-    public func saveFavoriteItem(item: Product) -> Result<Bool, CoreDataError> {
-        coreData.saveFavoriteItem(item: item)
-    }
-    
-    public func deleteFavoriteItem(id: Int) -> Result<Bool, CoreDataError> {
-        coreData.deleteFavoriteItem(id: id)
-    }
-    
-}
