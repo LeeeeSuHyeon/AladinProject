@@ -22,7 +22,7 @@ public struct ProductResult : Decodable {
 
 
 public struct Product : Decodable, Hashable {
-    let id : Int
+    let id : String
     let title : String
     let author : String
     let publisher : String
@@ -35,7 +35,7 @@ public struct Product : Decodable, Hashable {
     let publishDate : String
     
     enum CodingKeys: String, CodingKey {
-        case id = "itemId"
+        case id = "isbn13"
         case title
         case linkURL = "link"
         case author
@@ -50,7 +50,7 @@ public struct Product : Decodable, Hashable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
+        self.id = try container.decode(String.self, forKey: .id)
         self.title = try container.decode(String.self, forKey: .title)
         self.linkURL = try container.decode(String.self, forKey: .linkURL)
         self.author = try container.decode(String.self, forKey: .author)

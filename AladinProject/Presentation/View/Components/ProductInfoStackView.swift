@@ -26,7 +26,7 @@ class ProductInfoStackView : UIStackView {
     init(title: String, viewAxis : NSLayoutConstraint.Axis) {
         self.title = title
         self.viewAxis = viewAxis
-        super.init()
+        super.init(frame: .zero)
         setUI()
     }
     

@@ -13,6 +13,7 @@ public protocol DetailUsecaseProtocol {
     func saveFavoriteItem(item : Product) -> Result<Bool, CoreDataError>
     func deleteFavoriteItem(id : Int) -> Result<Bool, CoreDataError>
     func linkItem(url : String)
+    func fetchItem(id : String) async -> Result<ProductResult, NetworkError>
 }
 
 
@@ -39,6 +40,11 @@ public class DetailUsecase : DetailUsecaseProtocol {
     public func linkItem(url: String) {
         print("DetailUsecase - linkItem()")
     }
+    
+    public func fetchItem(id : String) async -> Result<ProductResult, NetworkError> {
+        await repository.fetchItem(id: id)
+    }
+    
     
     
 }

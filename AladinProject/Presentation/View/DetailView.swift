@@ -85,6 +85,13 @@ class DetailView : UIView {
             grpProductLink,
             grpDescription
         ].forEach{ grpVerticalInfo.addArrangedSubview($0)}
+        
+        [
+            imgView,
+            grpHorizontalInfo,
+            grpVerticalInfo
+        ].forEach{self.addSubview($0)}
+    
     }
     
     private func setUI(){

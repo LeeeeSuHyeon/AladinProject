@@ -10,4 +10,5 @@ import Foundation
 public protocol DetailRepositoryProtocol {
     func saveFavoriteItem(item : Product) -> Result<Bool, CoreDataError>
     func deleteFavoriteItem(id : Int) -> Result<Bool, CoreDataError>
+    func fetchItem(id : String) async -> Result<ProductResult, NetworkError>
 }

@@ -16,7 +16,7 @@ public protocol DetailCoreDataProtocol {
 public struct DetailCoreData : DetailCoreDataProtocol {
     private var viewContext : NSManagedObjectContext?
     
-    private init(){
+    init(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         self.viewContext = appDelegate.persistentContainer.viewContext
