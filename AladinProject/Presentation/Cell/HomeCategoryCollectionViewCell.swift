@@ -13,17 +13,20 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
     let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.layer.cornerRadius = 15
     }
     
     let lblTitle = UILabel().then { lbl in
-        lbl.font = .systemFont(ofSize: 10, weight: .bold)
+        lbl.font = .systemFont(ofSize: 12, weight: .bold)
         lbl.numberOfLines = 1
+        lbl.textAlignment = .center
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
         setUI()
+        
     }
     
     private func setUI(){
@@ -32,6 +35,7 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         
         imgView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
+            make.width.equalTo(40)
             make.height.equalTo(70)
         }
         

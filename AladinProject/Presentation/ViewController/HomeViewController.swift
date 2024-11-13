@@ -50,7 +50,7 @@ class HomeViewController: UIViewController {
                 return cell
             case .category(let category):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCategoryCollectionViewCell.id, for: indexPath) as? HomeCategoryCollectionViewCell else {return UICollectionViewCell()}
-                cell.config(imgURL: category.image, title: category.title)
+                cell.config(imgURL: category.imageURL, title: category.title)
                 return cell
             case .bestSeller(let book) :
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBestSellerCollectionViewCell.id, for: indexPath) as? HomeBestSellerCollectionViewCell else {return UICollectionViewCell()}
@@ -81,46 +81,16 @@ class HomeViewController: UIViewController {
             let doubleSection = Section.double
             let doubleItem = bestSellerList.map{Item.bestSeller($0)}
             
-            snapShot.appendSections([bannerSection, doubleSection])
+            let flowSection = Section.flow
+            let flowItem = Category.dummy().map{Item.category($0)}
+            
+            snapShot.appendSections([bannerSection, flowSection, doubleSection])
             snapShot.appendItems(doubleItem, toSection: doubleSection)
             snapShot.appendItems(bannerItem, toSection: bannerSection)
+            snapShot.appendItems(flowItem, toSection: flowSection)
             
             self?.datasource?.apply(snapShot)
         }.disposed(by: disposeBag)
-        
-//        output.bestSellerList.bind(onNext: { bookList in
-//            print(bookList)
-//            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-//            let section = Section.double
-//            let items = bookList.map {Item.bestSeller($0)}
-//            snapshot.appendSections([section])
-//            snapshot.appendItems(items, toSection: section)
-//            self.datasource?.apply(snapshot)
-//        }).disposed(by: disposeBag)
-//        
-//        output.newBookList.bind { bookList in
-//            print(bookList)
-//            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-//            let section = Section.banner
-//            let items = bookList.map{Item.newBook($0)}
-//            snapshot.appendSections([section])
-//            snapshot.appendItems(items, toSection: section)
-//            self.datasource?.apply(snapshot)
-//        }.disposed(by: disposeBag)
     }
-
-//    private func test(){
-//
-//        Task {
-//            let result = await homeUC.fetchBestSellerList()
-//            switch result {
-//            case .success(let data):
-//                print(data.item)
-//            case .failure(let error):
-//                print(error.description)
-//            }
-//        }
-//    }
-
 }
 
