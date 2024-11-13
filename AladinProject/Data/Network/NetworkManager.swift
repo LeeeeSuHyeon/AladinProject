@@ -17,14 +17,15 @@ public class NetworkManager : NetworkManagerProtocol {
     
     let session : SessionProtocol
     let endPoint = "https://www.aladin.co.kr/ttb/api/"
-    let query = "&MaxResult=10&start=1&SearchTarget=Book&output=JS&Version=20131101"
+    
     
     init(session: SessionProtocol) {
         self.session = session
     }
     
     public func fetchData<T : Decodable>(url: String, method: HTTPMethod, parameters: Parameters?, headers: HTTPHeaders?) async -> Result<T, NetworkError> {
-        let requestURL = endPoint + url + query
+        let requestURL = endPoint + url
+        print(requestURL)
         guard let url = URL(string: requestURL) else { return .failure(.urlError)}
         let result = await session.request(url, method: method, parameters: parameters, headers: headers).serializingString().response
         if let error = result.error {

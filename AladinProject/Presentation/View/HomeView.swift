@@ -16,9 +16,9 @@ enum Section : Hashable{
 }
 
 enum Item : Hashable {
-    case newBook(Book)
+    case newBook(Product)
     case category(Category)
-    case bestSeller(Book)
+    case bestSeller(Product)
 }
 
 

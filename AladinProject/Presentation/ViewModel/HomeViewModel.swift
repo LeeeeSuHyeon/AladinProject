@@ -19,8 +19,8 @@ public class HomeViewModel : HomeViewModelProtocol{
     private let disposeBag = DisposeBag()
     
     private let error = PublishRelay<String>()
-    private let bestSellerList = PublishRelay<[Book]>()
-    private let newBookList = PublishRelay<[Book]>()
+    private let bestSellerList = PublishRelay<[Product]>()
+    private let newBookList = PublishRelay<[Product]>()
 //    private var page = 0
     
     init(usecase: HomeUsecaseProtocol) {
@@ -37,8 +37,8 @@ public class HomeViewModel : HomeViewModelProtocol{
     
     public struct Output {
 //        let bookList : Observable<Result<BookList, Error>>
-        let bestSellerList : Observable<[Book]>
-        let newBookList : Observable<[Book]>
+        let bestSellerList : Observable<[Product]>
+        let newBookList : Observable<[Product]>
         let error : Observable<String>
 //        let searchResult : Observable<[Book]>
 //        let selectedBookId : Observable<Int>
