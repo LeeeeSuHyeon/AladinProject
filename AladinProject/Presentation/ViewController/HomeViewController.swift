@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class HomeViewController: UIViewController {
     let viewModel : HomeViewModelProtocol
@@ -91,7 +92,25 @@ class HomeViewController: UIViewController {
     }
     
     private func bindView(){
-        
+        self.homeView.collectionView.rx.itemSelected.bind { indexPath in
+            let item = self.datasource?.itemIdentifier(for: indexPath)
+            
+            switch item {
+            case .newBook(let product):
+                let id = product.id
+                let nextVC = DetailViewController(id: id)
+                self.present(nextVC, animated: true)
+            case .category(let category):
+                <#code#>
+            case .bestSeller(let product):
+                <#code#>
+            case nil:
+                <#code#>
+            }
+            
+            
+            
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel(){

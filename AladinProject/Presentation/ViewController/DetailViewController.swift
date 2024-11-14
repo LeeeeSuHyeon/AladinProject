@@ -13,16 +13,16 @@ class DetailViewController: UIViewController {
     private let detailViewModel : DetailViewModelProtocol
     private let network : DetailNetworkProtocol
     
-    init() {
+    init(id : String) {
         let detailCD = DetailCoreData()
         let detailManager = NetworkManager(session: DetailSession())
         let detailNetwork = DetailNetwork(manager: detailManager)
         let detailRP = DetailRepository(coreData: detailCD, network: detailNetwork)
         let detailUC = DetailUsecase(repository: detailRP)
-        detailViewModel = DetailViewModel(usecase: detailUC)
+        detailViewModel = DetailViewModel(usecase: detailUC, id : id)
         detailView = DetailView()
         network = detailNetwork
-    
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
     }
     
     private func bindViewModel() {
-    
+        
     }
     
     private func test() async {
