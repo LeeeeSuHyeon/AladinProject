@@ -35,7 +35,7 @@ public struct Product : Decodable, Hashable {
     let publishDate : String
     
     enum CodingKeys: String, CodingKey {
-        case id = "isbn13"
+        case id = "isbn"
         case title
         case linkURL = "link"
         case author

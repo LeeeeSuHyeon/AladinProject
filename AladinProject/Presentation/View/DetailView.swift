@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DetailView : UIView {
     private let imgView = UIImageView().then { view in
@@ -113,5 +114,16 @@ class DetailView : UIView {
             make.leading.equalTo(imgView.snp.leading)
             make.bottom.equalToSuperview()
         }
+    }
+    
+    public func config(item : Product) {
+        self.imgView.kf.setImage(with: URL(string: item.coverURL))
+        self.grpTitle.config(value: item.title)
+        self.grpAuthor.config(value: item.author)
+        self.grpDescription.config(value: item.description)
+        self.grpPriceSales.config(value: item.priceSales.getWonString())
+        self.grpPriceStandard.config(value: item.priceStandard.getWonString())
+        self.grpProductLink.config(value: item.linkURL)
+        self.grpPublishDate.config(value: item.publishDate)
     }
 }

@@ -98,14 +98,17 @@ class HomeViewController: UIViewController {
             switch item {
             case .newBook(let product):
                 let id = product.id
+                print(product)
                 let nextVC = DetailViewController(id: id)
                 self.present(nextVC, animated: true)
             case .category(let category):
-                <#code#>
+                print(category)
             case .bestSeller(let product):
-                <#code#>
-            case nil:
-                <#code#>
+                let id = product.id
+                let nextVC = DetailViewController(id: id)
+                self.present(nextVC, animated: true)
+            case .none:
+                print("")
             }
             
             

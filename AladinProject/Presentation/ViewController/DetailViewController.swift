@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import RxSwift
+import RxRelay
 
 class DetailViewController: UIViewController {
 
     private let detailView : DetailView
     private let detailViewModel : DetailViewModelProtocol
-    private let network : DetailNetworkProtocol
+    private let item = PublishRelay<Product>()
+    private let disposeBag = DisposeBag()
     
     init(id : String) {
         let detailCD = DetailCoreData()
@@ -21,7 +24,6 @@ class DetailViewController: UIViewController {
         let detailUC = DetailUsecase(repository: detailRP)
         detailViewModel = DetailViewModel(usecase: detailUC, id : id)
         detailView = DetailView()
-        network = detailNetwork
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,27 +38,23 @@ class DetailViewController: UIViewController {
         
         bindView()
         bindViewModel()
-        Task {
-            await test()
-        }
     }
     
     private func bindView() {
-        
+        self.item.bind {[weak self] item in
+            self?.detailView.config(item : item)
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel() {
+        let output = detailViewModel.transform(input: DetailViewModel.Input())
         
-    }
-    
-    private func test() async {
-        let result = await network.fetchItem(id: "9791163166139")
+        output.item.bind {[weak self] product in
+            self?.item.accept(product)
+        }.disposed(by: disposeBag)
         
-        switch result {
-        case .success(let item):
-            print(item)
-        case .failure(let error):
-            print(error.description)
-        }
+        output.error.bind { error in
+            print(error)
+        }.disposed(by: disposeBag)
     }
 }

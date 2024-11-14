@@ -41,7 +41,7 @@ class ProductInfoStackView : UIStackView {
         addArrangedSubview(lblValue)
     }
     
-    public func setValue(value : String) {
+    public func config(value : String) {
         self.lblValue.text = value
     }
     

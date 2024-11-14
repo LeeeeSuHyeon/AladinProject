@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 public protocol DetailViewModelProtocol {
-//    func transform(input : DetailViewModel.Input) -> DetailViewModel.Output
+    func transform(input : DetailViewModel.Input) -> DetailViewModel.Output
 }
 
 public class DetailViewModel : DetailViewModelProtocol {
@@ -27,28 +27,32 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     public struct Input {
-        let saveItem : Observable<Product>
-        let deleteItem : Observable<Int>
-        let clickLink : Observable<String>
-        let purchaseItem : Observable<Void>
+//        let saveItem : Observable<Product>
+//        let deleteItem : Observable<Int>
+//        let clickLink : Observable<String>
+//        let purchaseItem : Observable<Void>
     }
     
     public struct Output {
         let item : Observable<Product>
-        let error : Observable<Error>
+        let error : Observable<String>
     }
     
     public func transform(input: Input) -> Output {
         
         Task {
-            do {
-                let output = try await usecase.fetchItem(id: id)
-                item.accept(output)
-            } catch  {
-                self.error.accept(error.localizedDescription)
+            let output = await usecase.fetchItem(id: id)
+            switch output {
+            case .success(let product):
+                DispatchQueue.main.async {
+                    self.item.accept(product.item.first ?? product.item[0])
+                }
+            case .failure(let error):
+                self.error.accept(error.description)
             }
+
         }
-        return Output(item: output, error: <#T##Observable<any Error>#>)
+        return Output(item: item.asObservable(), error: self.error.asObservable())
     }
     
 }
