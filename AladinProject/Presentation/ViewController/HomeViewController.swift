@@ -100,13 +100,14 @@ class HomeViewController: UIViewController {
                 let id = product.id
                 print(product)
                 let nextVC = DetailViewController(id: id)
-                self.present(nextVC, animated: true)
+                self.navigationController?.pushViewController(nextVC, animated: true)
             case .category(let category):
                 print(category)
             case .bestSeller(let product):
                 let id = product.id
+                print(product)
                 let nextVC = DetailViewController(id: id)
-                self.present(nextVC, animated: true)
+                self.navigationController?.pushViewController(nextVC, animated: true)
             case .none:
                 print("")
             }

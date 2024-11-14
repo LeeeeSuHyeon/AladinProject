@@ -15,12 +15,15 @@ class ProductInfoStackView : UIStackView {
     private lazy var lblTitle = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 18, weight: .bold)
         lbl.text = title
-        lbl.textAlignment = .left
+        lbl.textAlignment = viewAxis == .horizontal ? .center : .left
+//        lbl.setContentHuggingPriority(.required, for: .horizontal)
+//        lbl.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     private lazy var lblValue = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 15, weight: .regular)
-        lbl.textAlignment = .left
+        lbl.textAlignment =  .left
+        lbl.numberOfLines = viewAxis == .horizontal ? 1 : 0
     }
     
     init(title: String, viewAxis : NSLayoutConstraint.Axis) {
@@ -36,9 +39,16 @@ class ProductInfoStackView : UIStackView {
     
     private func setUI() {
         self.axis = viewAxis
-        self.distribution = .fillEqually
+        self.spacing = 8
+    
+        
         addArrangedSubview(lblTitle)
         addArrangedSubview(lblValue)
+        
+        lblTitle.snp.makeConstraints { make in
+            make.leading.top.equalToSuperview()
+            make.width.equalTo(50)
+        }
     }
     
     public func config(value : String) {

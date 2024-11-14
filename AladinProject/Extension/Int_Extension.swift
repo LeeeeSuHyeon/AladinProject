@@ -18,7 +18,7 @@ extension Int {
     func getWonString() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        let won = numberFormatter.string(for: self) ?? "" + "원"
-        return won
+        let won = numberFormatter.string(for: self) ?? ""
+        return won + "원"
     }
 }

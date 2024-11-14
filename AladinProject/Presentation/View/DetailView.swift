@@ -9,6 +9,9 @@ import UIKit
 import Kingfisher
 
 class DetailView : UIView {
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private let imgView = UIImageView().then { view in
         view.contentMode = .scaleToFill
         view.clipsToBounds = true
@@ -17,7 +20,6 @@ class DetailView : UIView {
     private let grpHorizontalInfo = UIStackView().then { view in
         view.axis = .vertical
         view.spacing = 8
-        view.distribution = .fill
     }
     
     private let grpTitle = ProductInfoStackView(title: "제목", viewAxis: .horizontal)
@@ -27,7 +29,6 @@ class DetailView : UIView {
     
     private let grpButton = UIStackView().then { grp in
         grp.axis = .horizontal
-        grp.distribution = .fill
         grp.spacing = 8
     }
     
@@ -48,9 +49,11 @@ class DetailView : UIView {
     
     private let grpVerticalInfo = UIStackView().then { view in
         view.axis = .vertical
-        view.spacing = 10
-        view.distribution = .fill
+        view.spacing = 30
     }
+    
+    private let grpTitleDetail = ProductInfoStackView(title: "제목", viewAxis: .vertical)
+    private let grpAuthorDetail = ProductInfoStackView(title: "저자", viewAxis: .vertical)
     
     private let grpPublishDate = ProductInfoStackView(title: "출간일", viewAxis: .vertical)
     private let grpProductLink = ProductInfoStackView(title: "상품 링크", viewAxis: .vertical)
@@ -68,6 +71,9 @@ class DetailView : UIView {
     }
     
     private func setSubview(){
+        self.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
         [
             grpTitle,
             grpAuthor,
@@ -82,6 +88,8 @@ class DetailView : UIView {
         ].forEach{grpButton.addArrangedSubview($0)}
         
         [
+            grpTitleDetail,
+            grpAuthorDetail,
             grpPublishDate,
             grpProductLink,
             grpDescription
@@ -91,7 +99,7 @@ class DetailView : UIView {
             imgView,
             grpHorizontalInfo,
             grpVerticalInfo
-        ].forEach{self.addSubview($0)}
+        ].forEach{contentView.addSubview($0)}
     
     }
     
@@ -107,19 +115,31 @@ class DetailView : UIView {
             make.top.equalTo(imgView.snp.top).offset(5)
             make.leading.equalTo(imgView.snp.trailing).offset(10)
             make.bottom.equalTo(imgView.snp.bottom)
+            make.trailing.equalToSuperview().inset(10)
         }
         
         grpVerticalInfo.snp.makeConstraints { make in
             make.top.equalTo(imgView.snp.bottom).offset(15)
             make.leading.equalTo(imgView.snp.leading)
-            make.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().inset(10)
+        }
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
         }
     }
     
     public func config(item : Product) {
         self.imgView.kf.setImage(with: URL(string: item.coverURL))
         self.grpTitle.config(value: item.title)
+        self.grpTitleDetail.config(value: item.title)
         self.grpAuthor.config(value: item.author)
+        self.grpAuthorDetail.config(value: item.author)
         self.grpDescription.config(value: item.description)
         self.grpPriceSales.config(value: item.priceSales.getWonString())
         self.grpPriceStandard.config(value: item.priceStandard.getWonString())
