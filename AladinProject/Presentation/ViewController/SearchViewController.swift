@@ -39,7 +39,9 @@ class SearchViewController: UIViewController {
     }
     
     private func bindView(){
-
+        searchView.btnDismiss.rx.tap.bind { [weak self] in
+            self?.dismiss(animated: true)
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel(){
