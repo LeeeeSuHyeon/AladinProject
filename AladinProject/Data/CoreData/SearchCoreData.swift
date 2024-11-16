@@ -10,6 +10,7 @@ import CoreData
 
 public protocol SearchCoreDataProtocol {
     func fetchSearchRecord() -> Result<[String], CoreDataError>
+    func saveSearchRecord(title : String) -> Result<Bool, CoreDataError>
 }
 
 public class SeachCoreData : SearchCoreDataProtocol {
@@ -30,6 +31,22 @@ public class SeachCoreData : SearchCoreDataProtocol {
         } catch {
             return .failure(.readError(error.localizedDescription))
         }
-        
     }
+    
+    public func saveSearchRecord(title : String) -> Result<Bool, CoreDataError> {
+        guard let viewContext = viewContext, let entity = NSEntityDescription.entity(forEntityName: "SearchRecord", in: viewContext) else {
+            return . failure(.entityNotFound("SearchRecord 없음"))
+        }
+        let object = NSManagedObject(entity: entity, insertInto: viewContext)
+        
+        object.setValue(title, forKey: "title")
+        
+        do {
+            try viewContext.save()
+            return .success(true)
+        } catch {
+            return .failure(.saveError(error.localizedDescription))
+        }
+    }
+    
 }

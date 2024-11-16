@@ -9,6 +9,7 @@ import Foundation
 
 
 public class SearchRepository : SearchRepositoryProtocol {
+    
     private let coreData : SearchCoreDataProtocol
     private let network : SearchNetworkProtocol
     
@@ -21,7 +22,11 @@ public class SearchRepository : SearchRepositoryProtocol {
         return await network.searchBook(query: query)
     }
     
-    public func searchRecord() -> Result<[String], CoreDataError> {
+    public func fetchSearchRecord() -> Result<[String], CoreDataError> {
         return coreData.fetchSearchRecord()
+    }
+    
+    public func saveSearchRecord(title : String) -> Result<Bool, CoreDataError> {
+        return coreData.saveSearchRecord(title : title)
     }
 }
