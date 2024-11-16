@@ -20,7 +20,7 @@ final class HomeNetwork : HomeNetworkProtocol {
     
     func fetchProductList(type: queryType) async -> Result<ProductResult, NetworkError> {
         let key = Bundle.main.infoDictionary?["APIKey"] as? String ?? ""
-        let url = "ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
+        let url = "/ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
         let target = "Book"
         let query = "&MaxResult=10&start=1&SearchTarget=\(target)&output=JS&Version=20131101"
         return await manage.fetchData(url: url + query, method: .get, parameters: nil, headers: nil)

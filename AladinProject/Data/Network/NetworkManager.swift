@@ -16,7 +16,7 @@ public protocol NetworkManagerProtocol {
 public class NetworkManager : NetworkManagerProtocol {
     
     let session : SessionProtocol
-    let endPoint = "https://www.aladin.co.kr/ttb/api/"
+    let baseURL = "https://www.aladin.co.kr/ttb/api"
     
     
     init(session: SessionProtocol) {
@@ -24,7 +24,7 @@ public class NetworkManager : NetworkManagerProtocol {
     }
     
     public func fetchData<T : Decodable>(url: String, method: HTTPMethod, parameters: Parameters?, headers: HTTPHeaders?) async -> Result<T, NetworkError> {
-        let requestURL = endPoint + url
+        let requestURL = baseURL + url
         print(requestURL)
         guard let url = URL(string: requestURL) else { return .failure(.urlError)}
         let result = await session.request(url, method: method, parameters: parameters, headers: headers).serializingString().response
