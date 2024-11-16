@@ -25,7 +25,7 @@ enum Item : Hashable {
 class HomeView : UIView {
     private var dataSource : UICollectionViewDiffableDataSource<Section, Item>?
     
-    let textSearch = SearchTextField()
+    public let textSearch = SearchTextField()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
         view.register(HomeNewBookCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewBookCollectionViewCell.id)

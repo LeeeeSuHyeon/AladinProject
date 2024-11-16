@@ -111,9 +111,12 @@ class HomeViewController: UIViewController {
             case .none:
                 print("")
             }
-            
-            
-            
+        }.disposed(by: disposeBag)
+        
+        self.homeView.textSearch.rx.controlEvent(.editingDidBegin).bind { [weak self] in
+            let nextVC = SearchViewController()
+            nextVC.modalPresentationStyle = .fullScreen
+            self?.present(nextVC, animated: true)
         }.disposed(by: disposeBag)
     }
     
