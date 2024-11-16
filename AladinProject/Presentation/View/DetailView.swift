@@ -122,6 +122,7 @@ class DetailView : UIView {
             make.top.equalTo(imgView.snp.bottom).offset(15)
             make.leading.equalTo(imgView.snp.leading)
             make.trailing.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview()
         }
         
         scrollView.snp.makeConstraints { make in

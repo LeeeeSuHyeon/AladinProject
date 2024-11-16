@@ -25,17 +25,7 @@ enum Item : Hashable {
 class HomeView : UIView {
     private var dataSource : UICollectionViewDiffableDataSource<Section, Item>?
     
-    let textSearch = UITextField().then { text in
-        text.placeholder = "원하시는 책을 검색해주세요."
-        text.font = .systemFont(ofSize: 14)
-        let imgView = UIImageView(image: .init(systemName: "magnifyingglass"))
-        imgView.frame = CGRect(x: 0, y: 0, width: 10, height: 0)
-        text.leftView = imgView
-        text.leftViewMode = .always
-        text.backgroundColor = .systemGray5
-        text.layer.cornerRadius = 10
-        text.tintColor = .black
-    }
+    let textSearch = SearchTextField()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
         view.register(HomeNewBookCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewBookCollectionViewCell.id)
