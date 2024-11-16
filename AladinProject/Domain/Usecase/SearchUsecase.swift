@@ -10,7 +10,7 @@ import Foundation
 
 public protocol SearchUsecaseProtocol {
     func searchBook(query : String) async -> Result<ProductResult, NetworkError>
-//    func searchRecord() -> Result<[String], CoreDataError> // 검색 텍스트 필드 이전 검색 기록
+    func searchRecord() -> Result<[String], CoreDataError> // 검색 텍스트 필드 이전 검색 기록
 }
 
 
@@ -26,9 +26,9 @@ public class SearchUsecase : SearchUsecaseProtocol {
         return await repository.searchBook(query: query)
     }
     
-//    public func searchRecord() -> Result<[String], CoreDataError> {
-//        repository.searchRecord()
-//    }
+    public func searchRecord() -> Result<[String], CoreDataError> {
+        repository.searchRecord()
+    }
     
     
 }

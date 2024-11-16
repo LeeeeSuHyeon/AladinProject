@@ -9,11 +9,11 @@ import Foundation
 
 
 public class SearchRepository : SearchRepositoryProtocol {
-//    private let coreData : SearchCoreDataProtocol
+    private let coreData : SearchCoreDataProtocol
     private let network : SearchNetworkProtocol
     
-    init(network: SearchNetworkProtocol) {
-//        self.coreData = coreData
+    init(coreData: SearchCoreDataProtocol, network: SearchNetworkProtocol) {
+        self.coreData = coreData
         self.network = network
     }
     
@@ -21,9 +21,7 @@ public class SearchRepository : SearchRepositoryProtocol {
         return await network.searchBook(query: query)
     }
     
-//    public func searchRecord() -> Result<[String], CoreDataError> {
-//        return coreData.searchRecord()
-//    }
-    
-    
+    public func searchRecord() -> Result<[String], CoreDataError> {
+        return coreData.fetchSearchRecord()
+    }
 }

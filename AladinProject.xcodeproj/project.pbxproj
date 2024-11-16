@@ -14,6 +14,7 @@
 		CB2810122CE2058F0047DCF4 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810112CE2058F0047DCF4 /* RxRelay */; };
 		CB2810152CE205B50047DCF4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB2810142CE205B50047DCF4 /* Kingfisher */; };
 		CB2810372CE206020047DCF4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CB2810362CE206020047DCF4 /* Config.xcconfig */; };
+		CB8E189F2CE87EC300B3B77F /* AladinProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB8E187C2CE87EC300B3B77F /* AladinProject.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		CB280FDA2CE1F9B50047DCF4 /* AladinProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AladinProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB280FE42CE1F9B50047DCF4 /* AladinProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AladinProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB2810362CE206020047DCF4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		CB8E187F2CE87EC300B3B77F /* AladinProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AladinProject.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -105,6 +107,7 @@
 		CB280FB82CE1F9B20047DCF4 = {
 			isa = PBXGroup;
 			children = (
+				CB8E187C2CE87EC300B3B77F /* AladinProject.xcdatamodeld */,
 				CB2810362CE206020047DCF4 /* Config.xcconfig */,
 				CB280FC32CE1F9B20047DCF4 /* AladinProject */,
 				CB280FDD2CE1F9B50047DCF4 /* AladinProjectTests */,
@@ -281,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB8E189F2CE87EC300B3B77F /* AladinProject.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +687,19 @@
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		CB8E187C2CE87EC300B3B77F /* AladinProject.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CB8E187F2CE87EC300B3B77F /* AladinProject.xcdatamodel */,
+			);
+			currentVersion = CB8E187F2CE87EC300B3B77F /* AladinProject.xcdatamodel */;
+			path = AladinProject.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CB280FB92CE1F9B20047DCF4 /* Project object */;
 }
