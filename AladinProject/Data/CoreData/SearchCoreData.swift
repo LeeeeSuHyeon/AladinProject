@@ -13,7 +13,7 @@ public protocol SearchCoreDataProtocol {
     func saveSearchRecord(title : String) -> Result<Bool, CoreDataError>
 }
 
-public class SeachCoreData : SearchCoreDataProtocol {
+public class SearchCoreData : SearchCoreDataProtocol {
     
     let viewContext : NSManagedObjectContext?
     

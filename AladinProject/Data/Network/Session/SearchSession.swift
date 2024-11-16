@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 
-class SeachSession : SessionProtocol {
+class SearchSession : SessionProtocol {
     
     let session : Session
     

@@ -16,19 +16,11 @@ class HomeRespository : HomeRepositoryProtocol {
         self.network = network
     }
     
-    func searchBook(query: String) async -> Result<ProductResult, NetworkError> {
-        return .failure(.dataNil)
-    }
-    
     func fetchNewBookList() async -> Result<ProductResult, NetworkError> {
         return await network.fetchProductList(type: .itemNewAll)
     }
     
     func fetchBestSellerList() async -> Result<ProductResult, NetworkError> {
         return await network.fetchProductList(type: .bestSeller)
-    }
-    
-    func searchRecord() -> Result<[String], CoreDataError> {
-        return .failure(.deleteError(""))
     }
 }

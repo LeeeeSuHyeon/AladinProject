@@ -40,26 +40,35 @@ public class HomeViewModel : HomeViewModelProtocol{
     
     public func transfrom(input : Input) -> Output {
         input.viewDidLoad.bind { [weak self] in
-            self?.fetchBook()
+            self?.fetchBestSellerBook()
+            self?.fetchNewBook()
         }.disposed(by: disposeBag)
 
         return Output(bestSellerList: self.bestSellerList.asObservable(), newBookList: self.newBookList.asObservable(), error: error.asObservable())
     }
 
-    private func fetchBook() {
+    private func fetchBestSellerBook() {
         Task{
-            do {
-                let bestSellerResult = try await usecase.fetchBestSellerList().get().item
-                let newBookList = try await usecase.fetchNewBookList().get().item
-                
-                self.bestSellerList.accept(bestSellerResult)
-                self.newBookList.accept(newBookList)
-            } catch {
-                print(error)
-                self.error.accept(error.localizedDescription)
+            
+            let bestSellerResult = await usecase.fetchBestSellerList()
+            switch bestSellerResult {
+            case .success(let productResult):
+                self.bestSellerList.accept(productResult.item)
+            case .failure(let error):
+                self.error.accept(error.description)
             }
-
         }
-
+    }
+    
+    private func fetchNewBook(){
+        Task{
+            let newBookResult = await usecase.fetchNewBookList()
+            switch newBookResult {
+            case .success(let newBookResult):
+                self.newBookList.accept(newBookResult.item)
+            case .failure(let error):
+                self.error.accept(error.description)
+            }
+        }
     }
 }
