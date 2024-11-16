@@ -12,6 +12,7 @@ class SearchTableViewCell: UITableViewCell {
     
     private let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
     }
     
     private let grpTitle = ProductInfoStackView(title: "제목", viewAxis: .horizontal)
@@ -51,15 +52,14 @@ class SearchTableViewCell: UITableViewCell {
     
     private func setUI(){
         imgView.snp.makeConstraints { make in
-            make.width.equalTo(80)
+            make.width.equalTo(90)
             make.height.equalTo(140)
-            make.leading.top.bottom.equalToSuperview()
+            make.top.leading.bottom.equalToSuperview().inset(10)
         }
         
         grpInfo.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.trailing.equalToSuperview().inset(10)
             make.leading.equalTo(imgView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(10)
         }
     }
     

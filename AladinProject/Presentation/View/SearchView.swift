@@ -42,8 +42,7 @@ class SearchView: UIView {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(txtSearch.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }    
 }
