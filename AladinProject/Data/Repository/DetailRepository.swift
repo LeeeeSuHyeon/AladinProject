@@ -8,7 +8,7 @@
 import Foundation
 
 public class DetailRepository : DetailRepositoryProtocol {
-    
+
     let coreData : DetailCoreDataProtocol
     let network : DetailNetworkProtocol
     
@@ -21,8 +21,12 @@ public class DetailRepository : DetailRepositoryProtocol {
         return coreData.saveFavoriteItem(item: item)
     }
     
-    public func deleteFavoriteItem(id: Int) -> Result<Bool, CoreDataError> {
+    public func deleteFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
         return coreData.deleteFavoriteItem(id: id)
+    }
+    
+    public func checkFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
+        return coreData.checkFavoriteItem(id: id)
     }
     
     public func fetchItem(id: String) async -> Result<ProductResult, NetworkError> {

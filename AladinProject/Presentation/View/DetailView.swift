@@ -135,7 +135,7 @@ class DetailView : UIView {
         }
     }
     
-    public func config(item : Product) {
+    public func config(item : Product, isFavorite : Bool) {
         self.imgView.kf.setImage(with: URL(string: item.coverURL))
         self.grpTitle.config(value: item.title)
         self.grpTitleDetail.config(value: item.title)
@@ -146,5 +146,7 @@ class DetailView : UIView {
         self.grpPriceStandard.config(value: item.priceStandard.getWonString())
         self.grpProductLink.config(value: item.linkURL)
         self.grpPublishDate.config(value: item.publishDate)
+        
+        self.btnSaved.isSelected = isFavorite
     }
 }

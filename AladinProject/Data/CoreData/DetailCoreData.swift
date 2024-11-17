@@ -8,9 +8,11 @@
 import UIKit
 import CoreData
 
+
 public protocol DetailCoreDataProtocol {
     func saveFavoriteItem(item : Product) -> Result<Bool, CoreDataError>
-    func deleteFavoriteItem(id : Int) -> Result<Bool, CoreDataError>
+    func deleteFavoriteItem(id : String) -> Result<Bool, CoreDataError>
+    func checkFavoriteItem(id: String) -> Result<Bool, CoreDataError>
 }
 
 public struct DetailCoreData : DetailCoreDataProtocol {
@@ -42,9 +44,9 @@ public struct DetailCoreData : DetailCoreDataProtocol {
         }
     }
     
-    public func deleteFavoriteItem(id: Int) -> Result<Bool, CoreDataError> {
+    public func deleteFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
         let fetchRequest : NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %s", id)
         
         do {
             let result = try viewContext?.fetch(fetchRequest)
@@ -55,6 +57,23 @@ public struct DetailCoreData : DetailCoreDataProtocol {
             return .success(true)
         } catch {
             return .failure(.deleteError(error.localizedDescription))
+        }
+    }
+    
+    public func checkFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
+        let fetchRequest = FavoriteItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %s", id)
+        
+        do {
+            let result = try viewContext?.fetch(fetchRequest)
+            if result == nil {
+                return .success(false)
+            } else {
+                return .success(true)
+            }
+
+        } catch  {
+            return .failure(.readError(error.localizedDescription))
         }
     }
     
