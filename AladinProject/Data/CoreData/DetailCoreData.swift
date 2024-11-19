@@ -47,7 +47,8 @@ public struct DetailCoreData : DetailCoreDataProtocol {
     
     public func deleteFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
         let fetchRequest : NSFetchRequest<FavoriteItem> = FavoriteItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %s", id)
+        
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
         do {
             let result = try viewContext?.fetch(fetchRequest)
@@ -63,7 +64,7 @@ public struct DetailCoreData : DetailCoreDataProtocol {
     
     public func checkFavoriteItem(id: String) -> Result<Bool, CoreDataError> {
         let fetchRequest = FavoriteItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %s", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
         do {
             let result = try viewContext?.fetch(fetchRequest)
@@ -77,5 +78,4 @@ public struct DetailCoreData : DetailCoreDataProtocol {
             return .failure(.readError(error.localizedDescription))
         }
     }
-    
 }

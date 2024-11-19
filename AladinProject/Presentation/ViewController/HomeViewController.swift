@@ -25,6 +25,13 @@ class HomeViewController: UIViewController {
         self.viewModel = HomeViewModel(usecase: homeUC)
         self.homeView = HomeView()
         super.init(nibName: nil, bundle: nil)
+        
+        
+        view = homeView
+
+        setDataSource()
+        bindViewModel()
+        bindView()
     }
     
     required init?(coder: NSCoder) {
@@ -33,13 +40,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
-        view = homeView
-
-        setDataSource()
-        bindViewModel()
-        bindView()
     }
     
     private func setDataSource(){
@@ -98,14 +99,12 @@ class HomeViewController: UIViewController {
             switch item {
             case .newBook(let product):
                 let id = product.id
-                print(product)
                 let nextVC = DetailViewController(id: id)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             case .category(let category):
                 print(category)
             case .bestSeller(let product):
                 let id = product.id
-                print(product)
                 let nextVC = DetailViewController(id: id)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             case .none:

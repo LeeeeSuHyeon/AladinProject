@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 class FavoriteTableViewCell: UITableViewCell {
     static let id = "FavoriteTableViewCell"
+    
+    public var disposeBag = DisposeBag()
     
     private let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFill
@@ -21,19 +24,24 @@ class FavoriteTableViewCell: UITableViewCell {
     
     private let grpInfo = UIStackView().then { view in
         view.axis = .vertical
-        view.distribution = .equalSpacing
         view.alignment = .leading
+        view.spacing = 10
     }
     
-    private let btnSaved = UIButton().then { btn in
-        btn.setImage(.init(systemName: "heart"), for: .normal)
-        btn.setImage(.init(systemName: "heart.fill"), for: .selected)
+    public let btnSaved = UIButton().then { btn in
+        var config = UIButton.Configuration.plain()
+        
+        config.image = .init(systemName: "heart.fill")
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        btn.configuration = config
         btn.tintColor = .red
+        btn.clipsToBounds = true
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setSubject()
+        setSubView()
         setUI()
     }
     
@@ -41,7 +49,7 @@ class FavoriteTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setSubject(){
+    private func setSubView(){
         [
             imgView,
             grpInfo,
@@ -51,33 +59,40 @@ class FavoriteTableViewCell: UITableViewCell {
         [
             grpTitle,
             grpAuthor
-        ].forEach{grpInfo.addSubview($0)}
+        ].forEach{grpInfo.addArrangedSubview($0)}
     }
     
     private func setUI(){
         imgView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(100)
-            make.height.equalTo(150)
+            make.width.equalTo(60)
+            make.height.equalTo(90).priority(.high)
         }
         
         grpInfo.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.leading.equalTo(imgView.snp.trailing).offset(10)
+            make.trailing.equalTo(btnSaved.snp.leading)
         }
         
         btnSaved.snp.makeConstraints { make in
-            make.width.height.equalTo(60)
+            make.width.height.equalTo(40)
             make.trailing.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
-            make.leading.equalTo(grpInfo.snp.trailing)
         }
         
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imgView.image = nil
+        self.disposeBag = DisposeBag() // 재사용 시 새로운 DisposeBag 생성
+    }
+    
+    public func config(item : FavoriteItem) {
+        imgView.kf.setImage(with: URL(string: item.imageURL ?? ""))
+        grpTitle.config(value: item.title ?? "")
+        grpAuthor.config(value: item.author ?? "")
+        btnSaved.isSelected = true
     }
 }

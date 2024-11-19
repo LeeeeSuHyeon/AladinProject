@@ -29,6 +29,11 @@ class DetailViewController: UIViewController {
 
         self.id = id
         super.init(nibName: nil, bundle: nil)
+        
+        view = detailView
+        
+        bindView()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -37,10 +42,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = detailView
-        
-        bindView()
-        bindViewModel()
+
     }
     
     private func bindView() {
@@ -68,8 +70,6 @@ class DetailViewController: UIViewController {
                     self.saveItem.accept(detailData.item)
                 }
             }.disposed(by: disposeBag)
-            
-//            self.detailView.btnSaved.isSelected.toggle()
             
         }.disposed(by: disposeBag)
 

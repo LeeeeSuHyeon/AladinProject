@@ -23,7 +23,7 @@ public protocol DetailViewModelProtocol {
 public class DetailViewModel : DetailViewModelProtocol {
     private let usecase : DetailUsecaseProtocol
     private let error = PublishRelay<String>()
-    private let item = BehaviorRelay<Product>(value: Product())
+    private let item = PublishRelay<Product>()
     private let isFavorite = BehaviorRelay<Bool>(value: false)
     private let disposeBag = DisposeBag()
     
@@ -43,8 +43,6 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     public func transform(input: Input) -> Output {
-        print("transform")
-        
         input.itemId.bind {[weak self] id in
             self?.fetchItem(id: id)
             self?.checkFavoriteItem(id: id)
@@ -59,12 +57,9 @@ public class DetailViewModel : DetailViewModelProtocol {
         }.disposed(by: disposeBag)
         
         let detailData = Observable.combineLatest(item, isFavorite) { item, isFavorite in
-            print("item : \(item)")
-            print("isFavorite : \(isFavorite)")
+            print("detailData - called")
             return DetailData(item: item, isFavorite: isFavorite)
         }
-        
-        
 
         return Output(detailData: detailData, error: self.error.asObservable())
     }
@@ -99,6 +94,7 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     private func saveFavoriteItem(item : Product) {
+        print("saveFavoriteItem : \(item.title)")
         let result = usecase.saveFavoriteItem(item: item)
         switch result {
         case .success(_):
@@ -109,6 +105,7 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     private func deleteFavoriteItem(item : Product) {
+        print("deleteFavoriteItem : \(item.title)")
         let result = usecase.deleteFavoriteItem(id: item.id)
         switch result {
         case .success(_):
