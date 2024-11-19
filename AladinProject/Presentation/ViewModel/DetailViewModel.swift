@@ -9,6 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
+public struct DetailData {
+    let item : Product
+    let isFavorite : Bool
+}
+
+
 public protocol DetailViewModelProtocol {
     func transform(input : DetailViewModel.Input) -> DetailViewModel.Output
 }
@@ -16,59 +23,50 @@ public protocol DetailViewModelProtocol {
 public class DetailViewModel : DetailViewModelProtocol {
     private let usecase : DetailUsecaseProtocol
     private let error = PublishRelay<String>()
-    private let item = PublishRelay<Product>()
+    private let item = BehaviorRelay<Product>(value: Product())
+    private let isFavorite = BehaviorRelay<Bool>(value: false)
     private let disposeBag = DisposeBag()
-    private let isFavorite = PublishRelay<Bool>()
-    private let itemAndFavorite = PublishRelay<(item : Product, isFavorite : Bool)>()
-    
     
     init(usecase: DetailUsecaseProtocol) {
         self.usecase = usecase
     }
     
     public struct Input {
-//        let saveItem : Observable<Product>
-//        let deleteItem : Observable<Product>
+        let saveItem : Observable<Product>
+        let deleteItem : Observable<Product>
         let itemId : Observable<String>
-        let itemAndFavorite : Observable<(item : Product, isFavorite : Bool)>
-//        let clickLink : Observable<String>
-//        let purchaseItem : Observable<Void>
     }
     
     public struct Output {
-        let item : Observable<Product>
-        let itemAndFavorite : Observable<(item : Product, isFavorite : Bool)>
+        let detailData : Observable<DetailData>
         let error : Observable<String>
-//        let isFavorite : Observable<Bool>
     }
     
     public func transform(input: Input) -> Output {
+        print("transform")
         
         input.itemId.bind {[weak self] id in
             self?.fetchItem(id: id)
             self?.checkFavoriteItem(id: id)
         }.disposed(by: disposeBag)
         
-        input.itemAndFavorite.bind { [weak self] item, isFavorite in
-            if isFavorite {
-                self?.saveFavoriteItem(item: item)
-            } else {
-                self?.deleteFavoriteItem(item: item)
-            }
+        input.saveItem.bind {[weak self] item in
+            self?.saveFavoriteItem(item: item)
         }.disposed(by: disposeBag)
         
-//        input.saveItem.bind {[weak self] product in
-//            self?.saveFavoriteItem(product: product)
-//        }.disposed(by: disposeBag)
-//        
-//        input.deleteItem.bind { [weak self] Product in
-//            self?.deleteFavoriteItem(id : Product.id)
-//        }.disposed(by: disposeBag)
+        input.deleteItem.bind { [weak self] item in
+            self?.deleteFavoriteItem(item: item)
+        }.disposed(by: disposeBag)
+        
+        let detailData = Observable.combineLatest(item, isFavorite) { item, isFavorite in
+            print("item : \(item)")
+            print("isFavorite : \(isFavorite)")
+            return DetailData(item: item, isFavorite: isFavorite)
+        }
+        
         
 
-//        return Output(item: item.asObservable(), error: self.error.asObservable(), isFavorite: isFavorite.asObservable())
-        
-        return Output(item: item.asObservable(), itemAndFavorite: itemAndFavorite.asObservable(), error: error.asObservable())
+        return Output(detailData: detailData, error: self.error.asObservable())
     }
     
     private func fetchItem(id : String) {
@@ -78,7 +76,6 @@ public class DetailViewModel : DetailViewModelProtocol {
             case .success(let product):
                 DispatchQueue.main.async { // view는 메인 스레드에서 변경해야 함
                     self.item.accept(product.item.first ?? product.item[0])
-//                    self.itemAndFavorite.accept(Observable.combineLatest(self.item, self.isFavorite))
                 }
             case .failure(let error):
                 self.error.accept(error.description)
@@ -105,8 +102,7 @@ public class DetailViewModel : DetailViewModelProtocol {
         let result = usecase.saveFavoriteItem(item: item)
         switch result {
         case .success(_):
-//            self.isFavorite.accept(true)
-            self.itemAndFavorite.accept((item : item, isFavorite : true))
+            self.isFavorite.accept(true)
         case .failure(let error):
             self.error.accept(error.description)
         }
@@ -116,10 +112,10 @@ public class DetailViewModel : DetailViewModelProtocol {
         let result = usecase.deleteFavoriteItem(id: item.id)
         switch result {
         case .success(_):
-//            self.isFavorite.accept(false)
-            self.itemAndFavorite.accept((item : item, isFavorite : false))
+            self.isFavorite.accept(false)
         case .failure(let error):
             self.error.accept(error.description)
         }
     }
 }
+

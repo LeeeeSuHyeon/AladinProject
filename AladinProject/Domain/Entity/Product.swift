@@ -34,6 +34,20 @@ public struct Product : Decodable, Hashable {
     let description : String
     let publishDate : String
     
+    init() {
+        self.id = ""
+        self.title = ""
+        self.author = ""
+        self.publisher = ""
+        self.priceSales = 0
+        self.priceStandard = 0
+        self.coverURL = ""
+        self.linkURL = ""
+        self.type = ""
+        self.description = ""
+        self.publishDate = ""
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id = "isbn"
         case title

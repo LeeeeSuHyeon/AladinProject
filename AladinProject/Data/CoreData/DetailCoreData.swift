@@ -16,6 +16,7 @@ public protocol DetailCoreDataProtocol {
 }
 
 public struct DetailCoreData : DetailCoreDataProtocol {
+
     private var viewContext : NSManagedObjectContext?
     
     init(){
@@ -66,10 +67,10 @@ public struct DetailCoreData : DetailCoreDataProtocol {
         
         do {
             let result = try viewContext?.fetch(fetchRequest)
-            if result == nil {
-                return .success(false)
-            } else {
+            if let result = result, result.count > 0 {
                 return .success(true)
+            } else {
+                return .success(false)
             }
 
         } catch  {

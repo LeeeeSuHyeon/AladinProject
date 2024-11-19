@@ -49,7 +49,6 @@ public class HomeViewModel : HomeViewModelProtocol{
 
     private func fetchBestSellerBook() {
         Task{
-            
             let bestSellerResult = await usecase.fetchBestSellerList()
             switch bestSellerResult {
             case .success(let productResult):

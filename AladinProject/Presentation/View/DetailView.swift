@@ -41,7 +41,7 @@ class DetailView : UIView {
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
     }
     
-    public let btnSaved = UIButton().then { btn in
+    public lazy var btnSaved = UIButton().then { btn in
         btn.setImage(.init(systemName: "heart"), for: .normal)
         btn.setImage(.init(systemName: "heart.fill"), for: .selected)
         btn.tintColor = .red
@@ -136,6 +136,7 @@ class DetailView : UIView {
     }
     
     public func config(item : Product, isFavorite : Bool) {
+        print("DetailView - config - isFavorite : \(isFavorite)")
         self.imgView.kf.setImage(with: URL(string: item.coverURL))
         self.grpTitle.config(value: item.title)
         self.grpTitleDetail.config(value: item.title)

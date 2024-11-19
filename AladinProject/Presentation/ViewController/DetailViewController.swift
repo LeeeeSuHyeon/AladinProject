@@ -13,11 +13,10 @@ class DetailViewController: UIViewController {
 
     private let detailView : DetailView
     private let detailViewModel : DetailViewModelProtocol
-    private let item = PublishRelay<Product>()
+    private let saveItem = PublishRelay<Product>()
+    private let deleteItem = PublishRelay<Product>()
     private let disposeBag = DisposeBag()
-    private let isFavorite = BehaviorRelay(value: false)
     private let id : String
-    private let itemAndFavorite = PublishRelay<(item : Product, isFavorite : Bool)>()
     
     init(id : String) {
         let detailCD = DetailCoreData()
@@ -45,41 +44,40 @@ class DetailViewController: UIViewController {
     }
     
     private func bindView() {
-//        Observable.combineLatest(self.item, self.isFavorite).bind {[weak self] item, isFavorite in
-//            self?.detailView.config(item: item, isFavorite : isFavorite)
-//        }.disposed(by: disposeBag)
-        
-        
-        itemAndFavorite.bind {[weak self] item, isFavorite in
-            self?.detailView.config(item: item, isFavorite: isFavorite)
-        }.disposed(by: disposeBag)
-        
-        detailView.btnSaved.rx.tap.bind { [weak self] in
-            guard let self = self else {return }
-            let isFavorite = self.isFavorite.value
-            self.isFavorite.accept(!isFavorite)
-            // isFavorite 값에 따라 item을 변경 시켜줘야 함
-            print("isFavorite : \(isFavorite)")
-        }.disposed(by: disposeBag)
+
     }
     
     private func bindViewModel() {
-        let id =  BehaviorRelay(value: self.id)
-        let input = DetailViewModel.Input(itemId: id.asObservable(), itemAndFavorite: itemAndFavorite.asObservable())
+        let input = DetailViewModel.Input(
+            saveItem: saveItem.asObservable(),
+            deleteItem: deleteItem.asObservable(),
+            itemId: Observable.just(id)
+        )
+        
         let output = detailViewModel.transform(input: input)
-//        let output = detailViewModel.transform(input: DetailViewModel.Input(saveItem: item.asObservable(), deleteItem: item.asObservable(), itemId: id.asObservable()))
-        output.itemAndFavorite.bind {[weak self] product, isFavorite in
-//            self?.item.accept(product)
-            self?.itemAndFavorite.accept((product, isFavorite))
+        
+        output.detailData.bind{[weak self] detailData in
+            guard let self = self else { return }
+            
+            self.detailView.config(item: detailData.item, isFavorite: detailData.isFavorite)
+            
+            self.detailView.btnSaved.rx.tap.bind {
+                if detailData.isFavorite {
+                    self.deleteItem.accept(detailData.item)
+                } else {
+                    self.saveItem.accept(detailData.item)
+                }
+            }.disposed(by: disposeBag)
+            
+//            self.detailView.btnSaved.isSelected.toggle()
+            
         }.disposed(by: disposeBag)
+
         
         output.error.bind { error in
             // alert 추가
             print(error)
         }.disposed(by: disposeBag)
         
-//        output.isFavorite.bind { [weak self] isFavorite in
-//            self?.isFavorite.accept(isFavorite)
-//        }.disposed(by: disposeBag)
     }
 }
