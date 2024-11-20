@@ -43,7 +43,7 @@ class ProductInfoStackView : UIStackView {
         addArrangedSubview(lblValue)
         
         lblTitle.snp.makeConstraints { make in
-            make.width.equalTo(50).priority(.high)
+            make.width.equalTo(50)
         }
     }
     

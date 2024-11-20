@@ -34,8 +34,10 @@ class FavoriteTableViewCell: UITableViewCell {
         config.image = .init(systemName: "heart.fill")
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
+        config.baseForegroundColor = .red
+        config.baseBackgroundColor = .clear
+        
         btn.configuration = config
-        btn.tintColor = .red
         btn.clipsToBounds = true
     }
     
@@ -64,8 +66,7 @@ class FavoriteTableViewCell: UITableViewCell {
     
     private func setUI(){
         imgView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.leading.equalToSuperview().inset(10)
+            make.leading.top.bottom.equalToSuperview().inset(10)
             make.width.equalTo(60)
             make.height.equalTo(90).priority(.high)
         }
