@@ -10,7 +10,8 @@ import UIKit
 class TabBarController: UITabBarController {
     
     private let homeVC = UINavigationController(rootViewController: HomeViewController())
-    private let favoriteVC = FavoriteViewController()
+    private let favoriteVC = UINavigationController(rootViewController: FavoriteViewController())
+
     private let myPageVC = MyPageViewController()
     
 

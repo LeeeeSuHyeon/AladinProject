@@ -16,6 +16,7 @@ class FavoriteViewController: UIViewController {
     private let deleteItem = PublishRelay<String>()
     private let viewLoad = PublishRelay<Void>()
     private let disposeBag = DisposeBag()
+    private let itemList = BehaviorRelay<[FavoriteItem]>(value: [])
     
     init(){
         let favoriteRP = FavoriteRepository(coreData: FavoriteCoreData())
@@ -39,17 +40,21 @@ class FavoriteViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        favoriteView.tableView.reloadData()
+
         viewLoad.accept(())
-        
     }
 
     
     private func bindView(){
-//        favoriteView.tableView.rx.itemSelected.bind { indexPath in
-//            print("tableView tap")
-//        }.disposed(by: disposeBag)
+        favoriteView.tableView.rx.itemSelected.bind{ index in
+            guard let selectedId = self.itemList.value[index.row].id else {
+                return
+            }
+                
+            let nextVC = DetailViewController(id: selectedId)
+            self.navigationController?.pushViewController(nextVC, animated: true)
+
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel(){
@@ -60,6 +65,7 @@ class FavoriteViewController: UIViewController {
         output.itemList
             .do { itemList in
                 print(itemList.count)
+                self.itemList.accept(itemList)
             }
             .bind(to: favoriteView.tableView.rx.items) { tableView, indexPath, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteTableViewCell.id) as? FavoriteTableViewCell else {
