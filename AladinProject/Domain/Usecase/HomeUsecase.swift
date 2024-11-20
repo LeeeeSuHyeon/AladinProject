@@ -15,10 +15,12 @@ public enum queryType : String {
 public protocol HomeUsecaseProtocol {
     func fetchNewBookList() async -> Result<ProductResult, NetworkError>
     func fetchBestSellerList() async -> Result<ProductResult, NetworkError>
+    func fetchMoreBestSellerList(page : Int) async -> Result<ProductResult, NetworkError>
     
 }
 
 class HomeUsecase : HomeUsecaseProtocol {
+    
     let repository : HomeRepositoryProtocol
     
     init(repository: HomeRepositoryProtocol) {
@@ -30,5 +32,8 @@ class HomeUsecase : HomeUsecaseProtocol {
     }
     func fetchBestSellerList() async -> Result<ProductResult, NetworkError> {
         return await repository.fetchBestSellerList()
+    }
+    func fetchMoreBestSellerList(page : Int) async -> Result<ProductResult, NetworkError> {
+        return await repository.fetchMoreBestSellerList(page : page)
     }
 }

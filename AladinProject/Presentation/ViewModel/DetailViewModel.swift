@@ -57,7 +57,6 @@ public class DetailViewModel : DetailViewModelProtocol {
         }.disposed(by: disposeBag)
         
         let detailData = Observable.combineLatest(item, isFavorite) { item, isFavorite in
-            print("detailData - called")
             return DetailData(item: item, isFavorite: isFavorite)
         }
 
@@ -94,7 +93,6 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     private func saveFavoriteItem(item : Product) {
-        print("saveFavoriteItem : \(item.title)")
         let result = usecase.saveFavoriteItem(item: item)
         switch result {
         case .success(_):
@@ -105,7 +103,6 @@ public class DetailViewModel : DetailViewModelProtocol {
     }
     
     private func deleteFavoriteItem(item : Product) {
-        print("deleteFavoriteItem : \(item.title)")
         let result = usecase.deleteFavoriteItem(id: item.id)
         switch result {
         case .success(_):

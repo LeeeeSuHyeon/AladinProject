@@ -136,7 +136,6 @@ class DetailView : UIView {
     }
     
     public func config(item : Product, isFavorite : Bool) {
-        print("DetailView - config - isFavorite : \(isFavorite)")
         self.imgView.kf.setImage(with: URL(string: item.coverURL))
         self.grpTitle.config(value: item.title)
         self.grpTitleDetail.config(value: item.title)

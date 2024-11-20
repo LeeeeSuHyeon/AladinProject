@@ -9,20 +9,34 @@ import Foundation
 // 상품 검색, 상품 리스트 url이 다름 -> 응답 값은 동일
 public protocol HomeNetworkProtocol {
     func fetchProductList(type : queryType) async -> Result<ProductResult, NetworkError>
+    func fetchMoreBestSellerList(type : queryType, page : Int) async -> Result<ProductResult, NetworkError>
 }
 
 final class HomeNetwork : HomeNetworkProtocol {
+
     private let manage : NetworkManagerProtocol
+    private let maxResult = 10
+    let key : String
     
     init(manage: NetworkManagerProtocol) {
         self.manage = manage
+        
+        self.key = Bundle.main.infoDictionary?["APIKey"] as? String ?? ""
     }
     
     func fetchProductList(type: queryType) async -> Result<ProductResult, NetworkError> {
-        let key = Bundle.main.infoDictionary?["APIKey"] as? String ?? ""
         let url = "/ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
         let target = "Book"
-        let query = "&MaxResult=10&start=1&SearchTarget=\(target)&output=JS&Version=20131101"
+        let query = "&MaxResult=\(maxResult)&start=1&SearchTarget=\(target)&output=JS&Version=20131101"
+        return await manage.fetchData(url: url + query, method: .get, parameters: nil, headers: nil)
+    }
+    
+    func fetchMoreBestSellerList(type : queryType, page: Int) async -> Result<ProductResult, NetworkError> {
+        let url = "/ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
+        let target = "Book"
+        let start = maxResult * (page - 1)
+        let query = "&MaxResult=\(maxResult)&start=\(page)&SearchTarget=\(target)&output=JS&Version=20131101"
+        
         return await manage.fetchData(url: url + query, method: .get, parameters: nil, headers: nil)
     }
 }

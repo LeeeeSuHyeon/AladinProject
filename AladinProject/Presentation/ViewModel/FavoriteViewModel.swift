@@ -59,15 +59,12 @@ public class FavoriteViewModel : FavoriteViewModelProtocol {
         }
     }
     
-    
     private func deleteItem(id : String) {
-        print("deleteItem : \(id)")
         let result =  usecase.deleteFavoriteItem(id: id)
         
         switch result {
         case .success(let success):
             fetchItem()
-            print(success)
         case .failure(let error):
             self.error.accept(error.description)
         }

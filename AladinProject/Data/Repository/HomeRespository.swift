@@ -8,10 +8,10 @@
 import Foundation
 
 class HomeRespository : HomeRepositoryProtocol {
+    
 
     let network : HomeNetworkProtocol
-//    let coreData :
-    
+
     init(network: HomeNetworkProtocol) {
         self.network = network
     }
@@ -23,4 +23,10 @@ class HomeRespository : HomeRepositoryProtocol {
     func fetchBestSellerList() async -> Result<ProductResult, NetworkError> {
         return await network.fetchProductList(type: .bestSeller)
     }
+    
+    func fetchMoreBestSellerList(page: Int) async -> Result<ProductResult, NetworkError> {
+        return await network.fetchMoreBestSellerList(type: .bestSeller, page : page)
+    }
+    
+
 }
