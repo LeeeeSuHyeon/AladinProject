@@ -16,8 +16,9 @@ public protocol SearchViewModelProtocol {
 public class SearchViewModel : SearchViewModelProtocol {
     let usecase : SearchUsecaseProtocol
     let disposeBag = DisposeBag()
-    let itemList = PublishRelay<[Product]>()
+    let itemList = BehaviorRelay<[Product]>(value: [])
     let error = PublishRelay<String>()
+    var page = 1
     
     init(usecase: SearchUsecaseProtocol) {
         self.usecase = usecase
@@ -25,6 +26,7 @@ public class SearchViewModel : SearchViewModelProtocol {
     
     public struct Input {
         let query : Observable<String>
+        let fetchMore : Observable<Void>
     }
     
     public struct Output {
@@ -34,24 +36,38 @@ public class SearchViewModel : SearchViewModelProtocol {
     
     public func transform(input : Input) -> Output {
         input.query.bind {[weak self] query in
-            self?.searchBook(query: query)
+            guard let self = self else {return}
+            self.page = 1
+            self.searchBook(query: query, page:page)
+        }.disposed(by: disposeBag)
+        
+        input.fetchMore
+            .withLatestFrom(input.query)
+            .bind { [weak self] query in
+                guard let self = self, page < 10 else {return}
+                page += 1
+                self.searchBook(query: query, page: page)
         }.disposed(by: disposeBag)
         
         
         return Output(itemList: itemList.asObservable(), error: error.asObservable())
     }
     
-    private func searchBook(query : String){
+    private func searchBook(query : String, page : Int){
         Task {
-            let result = await usecase.searchBook(query: query)
+            let result = await usecase.searchBook(query: query, page: page)
             switch result {
             case .success(let productResult):
-                itemList.accept(productResult.item)
+                if page == 1 {
+                    itemList.accept(productResult.item)
+                } else {
+                    itemList.accept(itemList.value + productResult.item)
+                }
+                
             case .failure(let error):
                 self.error.accept(error.description)
             }
         }
-        
     }
     
 }

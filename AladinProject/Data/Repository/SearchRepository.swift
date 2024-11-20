@@ -18,8 +18,8 @@ public class SearchRepository : SearchRepositoryProtocol {
         self.network = network
     }
     
-    public func searchBook(query: String) async -> Result<ProductResult, NetworkError> {
-        return await network.searchBook(query: query)
+    public func searchBook(query: String, page : Int) async -> Result<ProductResult, NetworkError> {
+        return await network.searchBook(query: query, page : page)
     }
     
     public func fetchSearchRecord() -> Result<[String], CoreDataError> {

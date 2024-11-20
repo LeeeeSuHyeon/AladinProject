@@ -9,7 +9,7 @@ import Foundation
 
 
 public protocol SearchRepositoryProtocol {
-    func searchBook(query : String) async -> Result<ProductResult, NetworkError>
+    func searchBook(query : String, page : Int) async -> Result<ProductResult, NetworkError>
     func fetchSearchRecord() -> Result<[String], CoreDataError>
     func saveSearchRecord(title : String) -> Result<Bool, CoreDataError>
 }

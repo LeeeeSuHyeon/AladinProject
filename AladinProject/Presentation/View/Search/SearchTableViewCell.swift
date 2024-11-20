@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class SearchTableViewCell: UITableViewCell {
     static let id = "SearchTableViewCell"
+    public var disposeBag = DisposeBag()
     
     private let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFill
@@ -68,5 +70,11 @@ class SearchTableViewCell: UITableViewCell {
         self.grpAuthor.config(value: item.author)
         self.grpPrice.config(value: item.priceStandard.getWonString())
         self.imgView.kf.setImage(with: URL(string: item.coverURL))
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
 }
