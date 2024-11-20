@@ -64,7 +64,6 @@ class FavoriteViewController: UIViewController {
         
         output.itemList
             .do { itemList in
-                print(itemList.count)
                 self.itemList.accept(itemList)
             }
             .bind(to: favoriteView.tableView.rx.items) { tableView, indexPath, item in
@@ -74,8 +73,8 @@ class FavoriteViewController: UIViewController {
 
                 cell.config(item: item)
 
-                cell.btnSaved.rx.tap.bind {
-                    print("btnSaved - tap(deleteItem : \(item.id ?? "")")
+                cell.btnSaved.rx.tap.bind { [weak self] in
+                    guard let self = self else { return }
                     self.deleteItem.accept(item.id ?? "")
                 }.disposed(by: cell.disposeBag)
                 return cell

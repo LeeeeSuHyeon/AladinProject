@@ -39,10 +39,12 @@ class FavoriteTableViewCell: UITableViewCell {
         
         btn.configuration = config
         btn.clipsToBounds = true
+        btn.isUserInteractionEnabled = true
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setSubView()
         setUI()
     }
@@ -56,7 +58,7 @@ class FavoriteTableViewCell: UITableViewCell {
             imgView,
             grpInfo,
             btnSaved
-        ].forEach{self.addSubview($0)}
+        ].forEach{self.contentView.addSubview($0)}
         
         [
             grpTitle,

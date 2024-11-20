@@ -16,6 +16,7 @@ class DetailViewController: UIViewController {
     private let saveItem = PublishRelay<Product>()
     private let deleteItem = PublishRelay<Product>()
     private let disposeBag = DisposeBag()
+    private let viewLoad = PublishRelay<String>()
     private let id : String
     
     init(id : String) {
@@ -45,6 +46,10 @@ class DetailViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewLoad.accept(id)
+    }
+    
     private func bindView() {
 
     }
@@ -53,7 +58,7 @@ class DetailViewController: UIViewController {
         let input = DetailViewModel.Input(
             saveItem: saveItem.asObservable(),
             deleteItem: deleteItem.asObservable(),
-            itemId: Observable.just(id)
+            itemId: viewLoad.asObservable()
         )
         
         let output = detailViewModel.transform(input: input)
