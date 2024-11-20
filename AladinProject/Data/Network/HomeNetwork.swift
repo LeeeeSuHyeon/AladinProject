@@ -34,8 +34,8 @@ final class HomeNetwork : HomeNetworkProtocol {
     func fetchMoreBestSellerList(type : queryType, page: Int) async -> Result<ProductResult, NetworkError> {
         let url = "/ItemList.aspx?ttbkey=\(key)&QueryType=\(type)"
         let target = "Book"
-        let start = maxResult * (page - 1)
-        let query = "&MaxResult=\(maxResult)&start=\(page)&SearchTarget=\(target)&output=JS&Version=20131101"
+        let start = maxResult * (page - 1) + 1
+        let query = "&MaxResult=\(maxResult)&start=\(start)&SearchTarget=\(target)&output=JS&Version=20131101"
         
         return await manage.fetchData(url: url + query, method: .get, parameters: nil, headers: nil)
     }

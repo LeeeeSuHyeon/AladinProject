@@ -25,6 +25,7 @@ public class NetworkManager : NetworkManagerProtocol {
     
     public func fetchData<T : Decodable>(url: String, method: HTTPMethod, parameters: Parameters?, headers: HTTPHeaders?) async -> Result<T, NetworkError> {
         let requestURL = baseURL + url
+        print(requestURL)
         guard let url = URL(string: requestURL) else { return .failure(.urlError)}
         let result = await session.request(url, method: method, parameters: parameters, headers: headers).serializingString().response
         if let error = result.error {

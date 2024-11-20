@@ -19,9 +19,9 @@ public class HomeViewModel : HomeViewModelProtocol{
     private let disposeBag = DisposeBag()
     
     private let error = PublishRelay<String>()
-    private let bestSellerList = PublishRelay<[Product]>()
+    private let bestSellerList = BehaviorRelay<[Product]>(value: [])
     private let newBookList = PublishRelay<[Product]>()
-//    private var page = 0
+    private var page = 1
     
     init(usecase: HomeUsecaseProtocol) {
         self.usecase = usecase
@@ -29,7 +29,7 @@ public class HomeViewModel : HomeViewModelProtocol{
     
     public struct Input {
         let viewDidLoad : Observable<Void>
-//        let fetchMore : Observable<Void>
+        let fetchMore : Observable<Void>
     }
     
     public struct Output {
@@ -42,6 +42,12 @@ public class HomeViewModel : HomeViewModelProtocol{
         input.viewDidLoad.bind { [weak self] in
             self?.fetchBestSellerBook()
             self?.fetchNewBook()
+        }.disposed(by: disposeBag)
+        
+        input.fetchMore.bind {[weak self] in
+            guard let self = self, page < 10 else {return}
+            self.page += 1
+            self.fetchMoreBestSeller(page: self.page)
         }.disposed(by: disposeBag)
 
         return Output(bestSellerList: self.bestSellerList.asObservable(), newBookList: self.newBookList.asObservable(), error: error.asObservable())
@@ -68,6 +74,22 @@ public class HomeViewModel : HomeViewModelProtocol{
             case .failure(let error):
                 self.error.accept(error.description)
             }
+        }
+    }
+    
+    private func fetchMoreBestSeller(page : Int){
+        Task {
+            let result = await usecase.fetchMoreBestSellerList(page: page)
+            switch result {
+            case .success(let productResult):
+                print("fetchMoreBestSeller - page : \(page)")
+                var item = self.bestSellerList.value
+                item += productResult.item
+                bestSellerList.accept(item)
+            case .failure(let error):
+                self.error.accept(error.description)
+            }
+            
         }
     }
 }

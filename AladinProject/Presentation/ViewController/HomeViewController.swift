@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     let viewModel : HomeViewModelProtocol
     let disposeBag = DisposeBag()
     let homeView : HomeView
+    let fetchMore = PublishRelay<Void>()
     
     private var datasource : UICollectionViewDiffableDataSource<Section, Item>?
     
@@ -117,12 +118,29 @@ class HomeViewController: UIViewController {
             nextVC.modalPresentationStyle = .fullScreen
             self?.present(nextVC, animated: true)
         }.disposed(by: disposeBag)
+        
+        self.homeView.collectionView.rx.prefetchItems.bind {[weak self] indexPath in
+            guard let self = self, let index = indexPath.first, index.section == 2 else { return }
+            let allRow = self.homeView.collectionView.numberOfItems(inSection: 2)
+            let currentRow = index.row
+            
+            if allRow - currentRow < 4 {
+                self.fetchMore.accept(())
+            }
+            
+        }.disposed(by: disposeBag)
+
     }
     
     private func bindViewModel(){
-        let output = viewModel.transfrom(input: HomeViewModel.Input(viewDidLoad: Observable.just(Void())))
+        let output = viewModel.transfrom(
+            input: HomeViewModel.Input(
+                viewDidLoad: Observable.just(Void()),
+                fetchMore: fetchMore.asObservable()))
         
         let _ = Observable.combineLatest(output.bestSellerList, output.newBookList).bind {[weak self] bestSellerList, newBookList in
+            guard let self = self else { return }
+            
             var snapShot = NSDiffableDataSourceSnapshot<Section, Item>()
             
             let bannerSection = Section.banner("신간 도서")
@@ -133,13 +151,16 @@ class HomeViewController: UIViewController {
             
             let flowSection = Section.flow("카테고리")
             let flowItem = Category.dummy().map{Item.category($0)}
-            
+//            Thread 12: "Fatal: supplied item identifiers are not unique. Duplicate identifiers: {(\n
+        
+            snapShot.deleteAllItems()
             snapShot.appendSections([bannerSection, flowSection, doubleSection])
             snapShot.appendItems(doubleItem, toSection: doubleSection)
             snapShot.appendItems(bannerItem, toSection: bannerSection)
             snapShot.appendItems(flowItem, toSection: flowSection)
             
-            self?.datasource?.apply(snapShot)
+            
+            self.datasource?.apply(snapShot)
         }.disposed(by: disposeBag)
     }
 }
