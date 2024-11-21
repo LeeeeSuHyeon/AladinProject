@@ -9,13 +9,13 @@ import UIKit
 import Then
 import SnapKit
 
-enum Section : Hashable{
+enum HomeSection : Hashable{
     case banner(String) // 헤더
     case flow(String)
     case double(String)
 }
 
-enum Item : Hashable {
+enum HomeItem : Hashable {
     case newBook(Product)
     case category(Category)
     case bestSeller(Product)
@@ -23,7 +23,7 @@ enum Item : Hashable {
 
 
 class HomeView : UIView {
-    private var dataSource : UICollectionViewDiffableDataSource<Section, Item>?
+    private var dataSource : UICollectionViewDiffableDataSource<HomeSection, HomeItem>?
     
     public let textSearch = SearchTextField()
     
@@ -130,12 +130,10 @@ class HomeView : UIView {
         return section
     }
     
-    public func config(dataSource : UICollectionViewDiffableDataSource<Section, Item>) {
+    public func config(dataSource : UICollectionViewDiffableDataSource<HomeSection, HomeItem>) {
         self.dataSource = dataSource
     }
-    
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -7,7 +7,20 @@
 
 import UIKit
 
+
+enum SearchSection : Hashable {
+    case horizontal
+    case vertical
+}
+
+enum SearchItem : Hashable {
+    case searchRecord(title : String)
+    case searchResult(item : Product)
+}
+
 class SearchView: UIView {
+    
+    private var dataSource : UICollectionViewDiffableDataSource<SearchSection, SearchItem>?
     
     private let grpTopView = UIView()
     public let txtSearch = SearchTextField()
@@ -17,8 +30,9 @@ class SearchView: UIView {
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
     }
     
-    public let tableView = UITableView().then { view in
-        view.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.id)
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
+        view.register(SeachRecordCell.self, forCellWithReuseIdentifier: SeachRecordCell.id)
+        view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.id)
     }
 
     override init(frame: CGRect) {
@@ -40,7 +54,7 @@ class SearchView: UIView {
             
         [
             grpTopView,
-            tableView
+            collectionView
         ].forEach{self.addSubview($0)}
     }
     
@@ -61,9 +75,53 @@ class SearchView: UIView {
             make.width.equalTo(60)
         }
         
-        tableView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.top.equalTo(txtSearch.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
         }
-    }    
+    }
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout{
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 30
+        
+        return UICollectionViewCompositionalLayout(sectionProvider: {[weak self] sectionId, _ in
+            let section = self?.dataSource?.sectionIdentifier(for: sectionId)
+            switch section {
+            case .horizontal:
+                return self?.createHorizontalSection()
+            case .vertical:
+                return self?.createVerticalSection()
+            case nil:
+                return self?.createHorizontalSection()
+            }
+        }, configuration: config)
+    }
+    
+    private func createHorizontalSection() -> NSCollectionLayoutSection{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(50))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        return section
+    }
+    
+    private func createVerticalSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        return section
+    }
 }

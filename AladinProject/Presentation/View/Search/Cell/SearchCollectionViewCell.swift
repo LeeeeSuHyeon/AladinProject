@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class SearchTableViewCell: UITableViewCell {
+class SearchCollectionViewCell : UICollectionViewCell {
     static let id = "SearchTableViewCell"
     public var disposeBag = DisposeBag()
     
@@ -28,9 +28,8 @@ class SearchTableViewCell: UITableViewCell {
         view.distribution = .fillEqually
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setSubView()
         setUI()
     }

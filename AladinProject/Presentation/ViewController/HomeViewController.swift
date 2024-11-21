@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     let homeView : HomeView
     let fetchMore = PublishRelay<Void>()
     
-    private var datasource : UICollectionViewDiffableDataSource<Section, Item>?
+    private var datasource : UICollectionViewDiffableDataSource<HomeSection, HomeItem>?
     
     init() {
         let homeSession = HomeSession()
@@ -45,7 +45,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setDataSource(){
-        datasource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
+        datasource = UICollectionViewDiffableDataSource<HomeSection, HomeItem>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
             case .newBook(let book):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewBookCollectionViewCell.id, for: indexPath) as? HomeNewBookCollectionViewCell else {return UICollectionViewCell()}
@@ -141,16 +141,16 @@ class HomeViewController: UIViewController {
         let _ = Observable.combineLatest(output.bestSellerList, output.newBookList).bind {[weak self] bestSellerList, newBookList in
             guard let self = self else { return }
             
-            var snapShot = NSDiffableDataSourceSnapshot<Section, Item>()
+            var snapShot = NSDiffableDataSourceSnapshot<HomeSection, HomeItem>()
             
-            let bannerSection = Section.banner("신간 도서")
-            let bannerItem = newBookList.map{Item.newBook($0)}
+            let bannerSection = HomeSection.banner("신간 도서")
+            let bannerItem = newBookList.map{HomeItem.newBook($0)}
             
-            let doubleSection = Section.double("인기 도서")
-            let doubleItem = bestSellerList.map{Item.bestSeller($0)}
+            let doubleSection = HomeSection.double("인기 도서")
+            let doubleItem = bestSellerList.map{HomeItem.bestSeller($0)}
             
-            let flowSection = Section.flow("카테고리")
-            let flowItem = Category.dummy().map{Item.category($0)}
+            let flowSection = HomeSection.flow("카테고리")
+            let flowItem = Category.dummy().map{HomeItem.category($0)}
 //            Thread 12: "Fatal: supplied item identifiers are not unique. Duplicate identifiers: {(\n
         
             snapShot.deleteAllItems()
