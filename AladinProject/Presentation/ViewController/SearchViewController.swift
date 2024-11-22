@@ -19,6 +19,7 @@ class SearchViewController: UIViewController {
     private let itemList = BehaviorRelay<[Product]>(value: [])
     private let loadRecord = PublishRelay<Void>()
     private let fetchMore = BehaviorRelay<Void>(value: ())
+    private let deleteTitle = PublishRelay<String>()
     
     init(){
         let searchNM = NetworkManager(session: SearchSession())
@@ -67,7 +68,7 @@ class SearchViewController: UIViewController {
         let query = searchView.txtSearch.rx.text.orEmpty.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
         let output = viewModel.transform(input: SearchViewModel.Input(
             loadRecord : Observable.just(()), query: query,
-            fetchMore: fetchMore.asObservable()
+            fetchMore: fetchMore.asObservable(), deleteTitle: deleteTitle.asObservable()
         ))
         
         Observable.combineLatest(output.itemList, output.searchRecord)
@@ -76,50 +77,24 @@ class SearchViewController: UIViewController {
                 print("itemList : \(itemList.count)")
                 print("searchRecordList : \(searchRecordList.count)")
                 guard let self = self else {return}
-                var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
+                var snapShot = self.dataSource?.snapshot() ??  NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
+
                 snapShot.deleteAllItems()
-                
+   
                 let horizontalSection = SearchSection.horizontal
                 let horizontalItem = searchRecordList.map{SearchItem.searchRecord($0)}
-                snapShot.appendSections([horizontalSection])
+                
+                let verticalSection = SearchSection.vertical
+                let verticalItem = itemList.map{SearchItem.searchResult($0)}
+                
+                snapShot.appendSections([horizontalSection, verticalSection])
                 snapShot.appendItems(horizontalItem, toSection: horizontalSection)
+                snapShot.appendItems(verticalItem, toSection: verticalSection)
             
-                if !itemList.isEmpty {
-                    let verticalSection = SearchSection.vertical
-                    let verticalItem = itemList.map{SearchItem.searchResult($0)}
-
-                    snapShot.appendSections([verticalSection])
-                    snapShot.appendItems(verticalItem, toSection: verticalSection)
-                }
-
                 self.dataSource?.apply(snapShot)
                 
         }.disposed(by: disposeBag)
         
-//        output.itemList
-//            .bind {[weak self] itemList in
-//            guard let self = self else {return}
-//                var snapShot = self.dataSource?.snapshot(for: .vertical)
-//            var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
-//            let verticalSection = SearchSection.vertical
-//            snapShot.appendSections([verticalSection])
-//            let item = itemList.map{SearchItem.searchResult($0)}
-//            snapShot.appendItems(item, toSection: verticalSection)
-//            
-//            self.dataSource?.apply(snapShot)
-//            
-//        }.disposed(by: disposeBag)
-//        
-//        output.searchRecord.bind {[weak self] searchRecordList in
-//            guard let self = self else {return}
-//            var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
-//            let horizontalSection = SearchSection.horizontal
-//            let item = searchRecordList.map{SearchItem.searchRecord($0)}
-//            snapShot.appendSections([horizontalSection])
-//            snapShot.appendItems(item, toSection: horizontalSection)
-//            
-//            self.dataSource?.apply(snapShot)
-//        }.disposed(by: disposeBag)
 
     }
     
@@ -131,6 +106,11 @@ class SearchViewController: UIViewController {
                     return UICollectionViewCell()
                 }
                 cell.config(title: title)
+                
+                cell.btnRemove.rx.tap.bind {[weak self] in
+                    self?.deleteTitle.accept(title)
+                }
+                
                 return cell
             case .searchResult(let item) :
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell else {

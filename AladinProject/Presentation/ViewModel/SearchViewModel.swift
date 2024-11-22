@@ -29,6 +29,7 @@ public class SearchViewModel : SearchViewModelProtocol {
         let loadRecord : Observable<Void>
         let query : Observable<String>
         let fetchMore : Observable<Void>
+        let deleteTitle : Observable<String>
     }
     
     public struct Output {
@@ -59,6 +60,10 @@ public class SearchViewModel : SearchViewModelProtocol {
                 page += 1
                 self.searchBook(query: query, page: page)
         }.disposed(by: disposeBag)
+        
+        input.deleteTitle.bind { title in
+            self.deleteSearchRecord(title : title)
+        }
         
         
         return Output(itemList: itemList.asObservable(), searchRecord: searchRecord.asObservable(), error: error.asObservable())
@@ -112,6 +117,17 @@ public class SearchViewModel : SearchViewModelProtocol {
             } else {
                 print("deleteAllSearchRecord - fail")
             }
+        case .failure(let error):
+            self.error.accept(error.description)
+        }
+    }
+    
+    private func deleteSearchRecord(title : String) {
+        let result = usecase.deleteSearchRecord(title: title)
+        
+        switch result {
+        case .success(let _):
+            self.fetchSearchRecord()
         case .failure(let error):
             self.error.accept(error.description)
         }
