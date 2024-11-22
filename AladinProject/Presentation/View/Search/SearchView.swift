@@ -83,7 +83,7 @@ class SearchView: UIView {
     
     private func createLayout() -> UICollectionViewCompositionalLayout{
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 30
+        config.interSectionSpacing = 20
         
         return UICollectionViewCompositionalLayout(sectionProvider: {[weak self] sectionId, _ in
             let section = self?.dataSource?.sectionIdentifier(for: sectionId)
@@ -102,7 +102,7 @@ class SearchView: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(50))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(30))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -114,7 +114,7 @@ class SearchView: UIView {
     private func createVerticalSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])

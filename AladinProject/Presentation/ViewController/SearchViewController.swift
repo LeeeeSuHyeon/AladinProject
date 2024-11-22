@@ -16,9 +16,9 @@ class SearchViewController: UIViewController {
     private let searchView = SearchView()
     private let viewModel : SearchViewModelProtocol
     private let disposeBag = DisposeBag()
-    private let itemList = PublishRelay<[Product]>()
+    private let itemList = BehaviorRelay<[Product]>(value: [])
     private let loadRecord = PublishRelay<Void>()
-    private let fetchMore = PublishRelay<Void>()
+    private let fetchMore = BehaviorRelay<Void>(value: ())
     
     init(){
         let searchNM = NetworkManager(session: SearchSession())
@@ -89,6 +89,7 @@ class SearchViewController: UIViewController {
 //        output.itemList
 //            .bind {[weak self] itemList in
 //            guard let self = self else {return}
+//                var snapShot = self.dataSource?.snapshot(for: .vertical)
 //            var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
 //            let verticalSection = SearchSection.vertical
 //            snapShot.appendSections([verticalSection])

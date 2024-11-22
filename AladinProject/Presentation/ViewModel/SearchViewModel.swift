@@ -17,7 +17,7 @@ public class SearchViewModel : SearchViewModelProtocol {
     let usecase : SearchUsecaseProtocol
     let disposeBag = DisposeBag()
     let itemList = BehaviorRelay<[Product]>(value: [])
-    let searchRecord = PublishRelay<[String]>()
+    let searchRecord = BehaviorRelay<[String]>(value: [])
     let error = PublishRelay<String>()
     var page = 1
     
