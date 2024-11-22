@@ -31,9 +31,9 @@ class SearchViewController: UIViewController {
         
         
         self.view = searchView
+        setDataSource()
         bindViewModel()
         bindView()
-        setDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -51,11 +51,15 @@ class SearchViewController: UIViewController {
         
         searchView.collectionView.rx.willDisplayCell.bind {[weak self] cell, indexPath in
             guard let self = self else {return}
-            let row = self.searchView.collectionView.numberOfItems(inSection: 1)
-            print("row : \(row), indexPath : \(indexPath.row)")
-            if row - indexPath.row < 3 {
-                self.fetchMore.accept(())
+            
+            if indexPath.section == 1 {
+                let row = self.searchView.collectionView.numberOfItems(inSection: 1)
+                print("row : \(row), indexPath : \(indexPath.row)")
+                if row - indexPath.row < 3 {
+                    self.fetchMore.accept(())
+                }
             }
+
         }.disposed(by: disposeBag)
     }
     
@@ -66,24 +70,30 @@ class SearchViewController: UIViewController {
             fetchMore: fetchMore.asObservable()
         ))
         
-        Observable.combineLatest(output.itemList, output.searchRecord).bind {[weak self] itemList, searchRecordList in
-            print("itemList : \(itemList.count)")
-            guard let self = self else {return}
-            var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
+        Observable.combineLatest(output.itemList, output.searchRecord)
+            .observe(on: MainScheduler.instance)
+            .bind {[weak self] itemList, searchRecordList in
+                print("itemList : \(itemList.count)")
+                print("searchRecordList : \(searchRecordList.count)")
+                guard let self = self else {return}
+                var snapShot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>()
+                snapShot.deleteAllItems()
+                
+                let horizontalSection = SearchSection.horizontal
+                let horizontalItem = searchRecordList.map{SearchItem.searchRecord($0)}
+                snapShot.appendSections([horizontalSection])
+                snapShot.appendItems(horizontalItem, toSection: horizontalSection)
             
-            let horizontalSection = SearchSection.horizontal
-            let horizontalItem = searchRecordList.map{SearchItem.searchRecord($0)}
-            
-            let verticalSection = SearchSection.vertical
-            let verticalItem = itemList.map{SearchItem.searchResult($0)}
-            
-            snapShot.deleteAllItems()
-            snapShot.appendSections([horizontalSection, verticalSection])
-            snapShot.appendItems(horizontalItem, toSection: horizontalSection)
-            snapShot.appendItems(verticalItem, toSection: verticalSection)
+                if !itemList.isEmpty {
+                    let verticalSection = SearchSection.vertical
+                    let verticalItem = itemList.map{SearchItem.searchResult($0)}
 
-            self.dataSource?.apply(snapShot)
-            
+                    snapShot.appendSections([verticalSection])
+                    snapShot.appendItems(verticalItem, toSection: verticalSection)
+                }
+
+                self.dataSource?.apply(snapShot)
+                
         }.disposed(by: disposeBag)
         
 //        output.itemList
