@@ -159,7 +159,6 @@ class HomeViewController: UIViewController {
             snapShot.appendItems(bannerItem, toSection: bannerSection)
             snapShot.appendItems(flowItem, toSection: flowSection)
             
-            
             self.datasource?.apply(snapShot)
         }.disposed(by: disposeBag)
     }

@@ -29,4 +29,13 @@ public class SearchRepository : SearchRepositoryProtocol {
     public func saveSearchRecord(title : String) -> Result<Bool, CoreDataError> {
         return coreData.saveSearchRecord(title : title)
     }
+    
+    public func deleteSearchRecord(title: String) -> Result<Bool, CoreDataError> {
+        coreData.deleteSearchRecord(title: title)
+    }
+    
+    public func deleteAllSearchRecord() -> Result<Bool, CoreDataError> {
+        coreData.deleteAllSearchRecord()
+    }
+    
 }

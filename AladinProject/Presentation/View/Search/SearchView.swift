@@ -14,8 +14,8 @@ enum SearchSection : Hashable {
 }
 
 enum SearchItem : Hashable {
-    case searchRecord(title : String)
-    case searchResult(item : Product)
+    case searchRecord(String)
+    case searchResult(Product)
 }
 
 class SearchView: UIView {
@@ -31,7 +31,7 @@ class SearchView: UIView {
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
-        view.register(SeachRecordCell.self, forCellWithReuseIdentifier: SeachRecordCell.id)
+        view.register(SearchRecordCell.self, forCellWithReuseIdentifier: SearchRecordCell.id)
         view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.id)
     }
 
@@ -120,8 +120,12 @@ class SearchView: UIView {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+//        section.orthogonalScrollingBehavior = .continuous
         
         return section
+    }
+    
+    public func config(dataSource : UICollectionViewDiffableDataSource<SearchSection, SearchItem>){
+        self.dataSource = dataSource
     }
 }

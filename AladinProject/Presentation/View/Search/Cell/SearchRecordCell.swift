@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SeachRecordCell : UICollectionViewCell {
+class SearchRecordCell : UICollectionViewCell {
     static let id = "SeachRecordCell"
     
     private let grpView = UIView()
@@ -23,6 +23,7 @@ class SeachRecordCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.lightGray
         setSubview()
         setUI()
     }
