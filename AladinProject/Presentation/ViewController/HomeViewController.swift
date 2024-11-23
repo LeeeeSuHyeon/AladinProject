@@ -29,7 +29,6 @@ class HomeViewController: UIViewController {
         
         
         view = homeView
-
         setDataSource()
         bindViewModel()
         bindView()
@@ -41,7 +40,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     private func setDataSource(){
@@ -97,11 +95,6 @@ class HomeViewController: UIViewController {
             default:
                 return UICollectionReusableView()
             }
-            
-
-            
-
-            
         }
         
     }
@@ -127,7 +120,7 @@ class HomeViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         self.homeView.textSearch.rx.controlEvent(.editingDidBegin).bind { [weak self] in
-            let nextVC = SearchViewController()
+            let nextVC = UINavigationController(rootViewController: SearchViewController())
             nextVC.modalPresentationStyle = .fullScreen
             self?.present(nextVC, animated: true)
         }.disposed(by: disposeBag)

@@ -46,6 +46,17 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    
     private func bindView(){
         searchView.btnDismiss.rx.tap.bind { [weak self] in
             self?.dismiss(animated: true)
@@ -61,7 +72,21 @@ class SearchViewController: UIViewController {
                     self.fetchMore.accept(())
                 }
             }
-
+        }.disposed(by: disposeBag)
+        
+        searchView.collectionView.rx.itemSelected.bind {[weak self] indexPath in
+            let data = self?.dataSource?.itemIdentifier(for: indexPath)
+            switch data {
+            case .searchRecord(let title):
+                self?.searchView.txtSearch.text = title
+                self?.searchView.txtSearch.becomeFirstResponder()
+            case .searchResult(let item):
+                let selectedId = item.id
+                let nextVC = DetailViewController(id: selectedId)
+                self?.navigationController?.pushViewController(nextVC, animated: true)
+            case .none:
+                return
+            }
         }.disposed(by: disposeBag)
     }
     
