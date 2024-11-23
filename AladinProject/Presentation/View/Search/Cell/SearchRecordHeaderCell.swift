@@ -16,7 +16,7 @@ class SearchRecordHeaderCell : UICollectionViewCell {
         lbl.font = .systemFont(ofSize: 14, weight: .bold)
     }
     
-    private let btnAllDelete = UIButton().then { btn in
+    public let btnAllDelete = UIButton().then { btn in
 
         var config = UIButton.Configuration.plain()
         config.title = "검색 기록 전체 삭제"
@@ -42,7 +42,7 @@ class SearchRecordHeaderCell : UICollectionViewCell {
         [
             lblTitle,
             btnAllDelete
-        ].forEach{self.addSubview($0)}
+        ].forEach{self.contentView.addSubview($0)}
     }
     private func setUI(){
         lblTitle.snp.makeConstraints { make in

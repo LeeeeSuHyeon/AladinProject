@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
     private let loadRecord = PublishRelay<Void>()
     private let fetchMore = BehaviorRelay<Void>(value: ())
     private let deleteTitle = PublishRelay<String>()
+    private let deleteAll = PublishRelay<Void>()
     
     init(){
         let searchNM = NetworkManager(session: SearchSession())
@@ -68,7 +69,7 @@ class SearchViewController: UIViewController {
         let query = searchView.txtSearch.rx.text.orEmpty.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
         let output = viewModel.transform(input: SearchViewModel.Input(
             loadRecord : Observable.just(()), query: query,
-            fetchMore: fetchMore.asObservable(), deleteTitle: deleteTitle.asObservable()
+            fetchMore: fetchMore.asObservable(), deleteTitle: deleteTitle.asObservable(), deleteAll: deleteAll.asObservable()
         ))
         
         Observable.combineLatest(output.itemList, output.searchRecord)
@@ -109,7 +110,7 @@ class SearchViewController: UIViewController {
                 
                 cell.btnRemove.rx.tap.bind {[weak self] in
                     self?.deleteTitle.accept(title)
-                }
+                }.disposed(by: self.disposeBag)
                 
                 return cell
             case .searchResult(let item) :
@@ -126,8 +127,12 @@ class SearchViewController: UIViewController {
             let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
             switch section {
             case .horizontal:
-                let header = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchRecordHeaderCell.id, for: indexPath)
-                return header as? SearchRecordHeaderCell
+                let header = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchRecordHeaderCell.id, for: indexPath) as? SearchRecordHeaderCell
+                header?.btnAllDelete.rx.tap.bind{[weak self] _ in
+                    print("btnAllDelete - tap")
+                    self?.deleteAll.accept(())
+                }.disposed(by: self.disposeBag)
+                return header
             case .vertical:
                 return nil
             case .none:
