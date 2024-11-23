@@ -31,7 +31,7 @@ class SearchView: UIView {
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
-        view.register(SearchRecordHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchRecordHeaderCell.id)
+        view.register(SearchRecordHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchRecordHeaderView.id)
         view.register(SearchRecordCell.self, forCellWithReuseIdentifier: SearchRecordCell.id)
         view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.id)
     }

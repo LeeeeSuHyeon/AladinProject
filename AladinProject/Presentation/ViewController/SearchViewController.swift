@@ -127,7 +127,7 @@ class SearchViewController: UIViewController {
             let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
             switch section {
             case .horizontal:
-                let header = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchRecordHeaderCell.id, for: indexPath) as? SearchRecordHeaderCell
+                let header = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchRecordHeaderView.id, for: indexPath) as? SearchRecordHeaderView
                 header?.btnAllDelete.rx.tap.bind{[weak self] _ in
                     print("btnAllDelete - tap")
                     self?.deleteAll.accept(())

@@ -13,9 +13,6 @@ class HomeHeaderView: UICollectionReusableView {
     private let lblHeader = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 25, weight: .bold)
     }
-    private let underlineView = UIView().then { view in
-        view.backgroundColor = .systemGray4
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,19 +21,12 @@ class HomeHeaderView: UICollectionReusableView {
     
     private func setUI(){
         addSubview(lblHeader)
-        addSubview(underlineView)
         
         lblHeader.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
+            make.top.trailing.equalToSuperview()
             make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(underlineView.snp.bottom).offset(20)
         }
-        
-        underlineView.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.top.equalToSuperview()
-        }
+
     }
     
     public func config(header : String) {

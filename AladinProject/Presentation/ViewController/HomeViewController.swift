@@ -70,24 +70,37 @@ class HomeViewController: UIViewController {
             
             let section = self?.datasource?.sectionIdentifier(for: indexPath.section)
             
-            switch section {
-            case .banner(let header):
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
-                (headerView as? HomeHeaderView)?.config(header: header)
-                return headerView
-            case .flow(let header):
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
-                (headerView as? HomeHeaderView)?.config(header: header)
-                return headerView
-            case .double(let header):
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
-                (headerView as? HomeHeaderView)?.config(header: header)
-                return headerView
+            switch kind {
+            case UICollectionView.elementKindSectionHeader :
+                switch section {
+                case .banner(let header):
+                    let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                    (headerView as? HomeHeaderView)?.config(header: header)
+                    return headerView
+                case .flow(let header):
+                    let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                    (headerView as? HomeHeaderView)?.config(header: header)
+                    return headerView
+                case .double(let header):
+                    let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                    (headerView as? HomeHeaderView)?.config(header: header)
+                    return headerView
+                default:
+                    let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
+                    (headerView as? HomeHeaderView)?.config(header: "헤더 없음")
+                    return headerView
+                }
+            case UICollectionView.elementKindSectionFooter :
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeFooterView.id, for: indexPath)
+                
+                return footerView
             default:
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderView.id, for: indexPath)
-                (headerView as? HomeHeaderView)?.config(header: "헤더 없음")
-                return headerView
+                return UICollectionReusableView()
             }
+            
+
+            
+
             
         }
         

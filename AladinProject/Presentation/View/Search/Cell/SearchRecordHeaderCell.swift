@@ -8,8 +8,8 @@
 import UIKit
 
 
-class SearchRecordHeaderCell : UICollectionViewCell {
-    static let id = "SearchRecordHeaderCell"
+class SearchRecordHeaderView : UICollectionReusableView {
+    static let id = "SearchRecordHeaderView"
     
     private let lblTitle = UILabel().then { lbl in
         lbl.text = "검색 기록"
@@ -42,7 +42,7 @@ class SearchRecordHeaderCell : UICollectionViewCell {
         [
             lblTitle,
             btnAllDelete
-        ].forEach{self.contentView.addSubview($0)}
+        ].forEach{self.addSubview($0)}
     }
     private func setUI(){
         lblTitle.snp.makeConstraints { make in
