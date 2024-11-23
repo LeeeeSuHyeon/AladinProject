@@ -20,9 +20,7 @@ class TabBarController: UITabBarController {
         self.view.backgroundColor = .systemGray6
         self.tabBar.tintColor = .black
         self.tabBar.isTranslucent = false
-        homeVC.isNavigationBarHidden = true
         setTabBarItem()
-        
     }
     
     private func setTabBarItem(){
