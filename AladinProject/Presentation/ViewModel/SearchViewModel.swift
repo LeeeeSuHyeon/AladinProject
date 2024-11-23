@@ -126,7 +126,7 @@ public class SearchViewModel : SearchViewModelProtocol {
         let result = usecase.deleteSearchRecord(title: title)
         
         switch result {
-        case .success(let _):
+        case .success(_):
             self.fetchSearchRecord()
         case .failure(let error):
             self.error.accept(error.description)

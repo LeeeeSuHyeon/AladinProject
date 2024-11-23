@@ -121,8 +121,23 @@ class SearchViewController: UIViewController {
             }
         })
         
+        
+        dataSource?.supplementaryViewProvider = { collectionview, kind, indexPath in
+            let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
+            switch section {
+            case .horizontal:
+                let header = collectionview.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchRecordHeaderCell.id, for: indexPath)
+                return header as? SearchRecordHeaderCell
+            case .vertical:
+                return nil
+            case .none:
+                return nil
+            }
+        }
+        
         if let dataSource = dataSource {
             searchView.config(dataSource: dataSource)
         }
+        
     }
 }

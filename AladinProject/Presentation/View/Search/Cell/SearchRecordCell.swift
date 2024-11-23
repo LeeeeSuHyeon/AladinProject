@@ -54,13 +54,14 @@ class SearchRecordCell : UICollectionViewCell {
         
         lblTitle.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(6)
+            make.trailing.equalTo(btnRemove.snp.leading)
             make.centerY.equalToSuperview()
         }
         
         btnRemove.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(6)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(20)
         }
     }
     
