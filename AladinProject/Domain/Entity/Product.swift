@@ -9,14 +9,17 @@ import Foundation
 
 public struct ProductResult : Decodable {
     let item : [Product]
+    let totalResults : Int
     
     enum CodingKeys: CodingKey {
         case item
+        case totalResults
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.item = try container.decode([Product].self, forKey: .item)
+        self.totalResults = try container.decode(Int.self, forKey: .totalResults)
     }
 }
 

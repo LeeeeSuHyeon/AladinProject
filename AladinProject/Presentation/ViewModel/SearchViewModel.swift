@@ -58,7 +58,6 @@ public class SearchViewModel : SearchViewModelProtocol {
             .withLatestFrom(input.query)
             .bind { [weak self] query in
                 guard let self = self, page < 10 else {return}
-                page += 1
                 self.searchBook(query: query, page: page)
         }.disposed(by: disposeBag)
         
@@ -93,8 +92,15 @@ public class SearchViewModel : SearchViewModelProtocol {
                 if page == 1 {
                     itemList.accept(productResult.item)
                 } else {
-                    itemList.accept(itemList.value + productResult.item)
+                    if productResult.totalResults >= itemList.value.count {
+                        var items = Set(itemList.value)
+                        let results = productResult.item.filter { item in
+                            !itemList.value.contains(item)
+                        }
+                        itemList.accept(itemList.value + results)
+                    }
                 }
+                self.page += 1
                 
             case .failure(let error):
                 self.error.accept(error.description)
