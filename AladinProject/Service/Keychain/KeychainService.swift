@@ -14,7 +14,7 @@ class KeychainService {
     private init() {}
     
     @discardableResult
-    private func save(account : KeychainAccountType, service : KeychainServiceType, value : String) -> OSStatus {
+    func save(account : KeychainAccountType, service : KeychainServiceType, value : String) -> OSStatus {
         guard let valueData = value.data(using: .utf8) else {return errSecParam}
         
         let query : [String : Any] = [
@@ -30,7 +30,7 @@ class KeychainService {
     }
     
     @discardableResult
-    private func load(account : KeychainAccountType, service : KeychainServiceType) -> String?{
+    func load(account : KeychainAccountType, service : KeychainServiceType) -> String?{
         
         let query : [String : Any] = [
             kSecClass as String : kSecClassGenericPassword,
@@ -54,7 +54,7 @@ class KeychainService {
     }
     
     @discardableResult
-    private func update(account : KeychainAccountType, service : KeychainServiceType, newValue : String) -> OSStatus {
+    func update(account : KeychainAccountType, service : KeychainServiceType, newValue : String) -> OSStatus {
         
         guard let value = newValue.data(using: .utf8) else {return errSecParam}
 
@@ -72,7 +72,7 @@ class KeychainService {
         return SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
     }
     
-    private func delete(account : KeychainAccountType, service : KeychainServiceType) -> OSStatus{
+    func delete(account : KeychainAccountType, service : KeychainServiceType) -> OSStatus{
         
         let query : [String : Any] = [
             kSecClass as String : kSecClassGenericPassword,

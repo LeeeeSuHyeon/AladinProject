@@ -17,9 +17,7 @@ class LoginViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     init() {
-        let loginRP = LoginRepository()
-        let loginUC = LoginUsecase(repository: loginRP)
-        self.viewModel = LoginViewModel(usecase: loginUC)
+        self.viewModel = LoginViewModel()
         self.loginView = LoginView()
         super.init(nibName: nil, bundle: nil)
         
@@ -46,10 +44,13 @@ class LoginViewController: UIViewController {
     private func bindViewModel(){
         let output = viewModel.transform(input: LoginViewModel.Input(tapKakaoLogin: tapKakaoLogin.asObservable()))
         
-        output.isLoginSuccess.bind { isSucess in
-            let nextVC = TabBarController()
-            nextVC.modalPresentationStyle = .fullScreen
-            self.present(nextVC, animated: true)
+        output.isLoginSuccess
+            .observe(on: MainScheduler.instance)
+            .filter{$0} // 성공한 경우만
+            .bind {[weak self] _ in
+                let nextVC = TabBarController()
+                nextVC.modalPresentationStyle = .fullScreen
+                self?.present(nextVC, animated: true)
         }.disposed(by: disposeBag)
         
         output.error.bind { error in
@@ -58,7 +59,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setLogoImage(){
-        let urlString = "https://i.namu.wiki/i/NGxQfn1A-o9Hp3dJl7_iDPTg_ZNRfG3o5_w1HAHm5BzOilYdp1uiZWJuo5R9liEAnllTvSMBxxY0e91Y6N9-ZQ.svg"
+        let urlString = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShpfasHADn3excKHKNJonJhtmdCOOcVQ5v4w&s"
         
         loginView.imgView.kf.setImage(with: URL(string: urlString), placeholder: UIImage(systemName: "antenna.radiowaves.left.and.right.slash")?.withTintColor(.black))
     }

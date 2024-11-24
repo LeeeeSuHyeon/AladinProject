@@ -8,6 +8,10 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
+
 
 
 public protocol LoginViewModelProtocol {
@@ -16,15 +20,9 @@ public protocol LoginViewModelProtocol {
 
 public class LoginViewModel : LoginViewModelProtocol{
     
-    private let usecase : LoginUsecaseProtocol
     private let error = PublishRelay<String>()
     private let isLoginSuccess = PublishRelay<Bool>()
     private let disposeBag = DisposeBag()
-    
-    
-    init(usecase: LoginUsecaseProtocol) {
-        self.usecase = usecase
-    }
     
     public struct Input {
         let tapKakaoLogin : Observable<Void>
@@ -37,21 +35,36 @@ public class LoginViewModel : LoginViewModelProtocol{
     
     public func transform(input : Input) -> Output {
         
-        input.tapKakaoLogin.bind { [weak self] in
-            self?.kakaoLogin()
+        input.tapKakaoLogin
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] in
+                self?.kakaoLogin()
         }.disposed(by: disposeBag)
         
         return Output(isLoginSuccess: isLoginSuccess.asObservable(), error: error.asObservable())
     }
     
     
-    private func kakaoLogin(){
-        let reuslt = usecase.kakaoLogin()
-        switch reuslt {
-        case .success(let success):
-            self.isLoginSuccess.accept(true)
-        case .failure(let error):
-            self.error.accept(error.localizedDescription)
+    private func kakaoLogin() {
+        UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+            if let error = error {
+                print("loginWithKakaoAccount - \(error)")
+                self.error.accept(KakaoLoginError.loginFailed.description)
+            } else {
+                // 토큰 저장
+                guard let token = oauthToken else {
+                    print("token Error")
+                    self.error.accept(KakaoLoginError.tokenError.description)
+                    return
+                }
+                let status = KeychainService.shared.save(account: .my, service: .kakaoLogin, value: token.accessToken)
+                if status == errSecSuccess {
+                    print("KakaoLoginToken - Saved")
+                    self.isLoginSuccess.accept(true)
+                } else {
+                    // 키 체인 에러
+                }
+            }
         }
     }
 }

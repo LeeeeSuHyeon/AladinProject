@@ -12,7 +12,6 @@ class LoginView : UIView {
     public let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
-        view.backgroundColor = .red
     }
     
     public let btnKakaoLogin = UIButton().then { btn in
@@ -35,7 +34,7 @@ class LoginView : UIView {
     
     private func setUI(){
         imgView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(15)
             make.height.equalTo(150)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.7)
