@@ -93,7 +93,7 @@ public class SearchViewModel : SearchViewModelProtocol {
                     itemList.accept(productResult.item)
                 } else {
                     if productResult.totalResults >= itemList.value.count {
-                        var items = Set(itemList.value)
+//                        var items = Set(itemList.value)
                         let results = productResult.item.filter { item in
                             !itemList.value.contains(item)
                         }
