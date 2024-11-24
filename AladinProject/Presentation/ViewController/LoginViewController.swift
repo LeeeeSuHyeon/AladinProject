@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.view = loginView
+        setLogoImage()
         bindView()
         bindViewModel()
     }
@@ -54,5 +55,11 @@ class LoginViewController: UIViewController {
         output.error.bind { error in
             print("kakaoLoginError : \(error)")
         }.disposed(by: disposeBag)
+    }
+    
+    private func setLogoImage(){
+        let urlString = "https://i.namu.wiki/i/NGxQfn1A-o9Hp3dJl7_iDPTg_ZNRfG3o5_w1HAHm5BzOilYdp1uiZWJuo5R9liEAnllTvSMBxxY0e91Y6N9-ZQ.svg"
+        
+        loginView.imgView.kf.setImage(with: URL(string: urlString), placeholder: UIImage(systemName: "antenna.radiowaves.left.and.right.slash")?.withTintColor(.black))
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 
 public protocol LoginUsecaseProtocol {
-    func kakaoLogin() -> Result<Bool, Error>
+    func kakaoLogin() -> Result<Bool, KakaoLoginError>
 }
 
 public class LoginUsecase : LoginUsecaseProtocol {
@@ -20,9 +20,7 @@ public class LoginUsecase : LoginUsecaseProtocol {
         self.repository = repository
     }
     
-    public func kakaoLogin() -> Result<Bool, any Error> {
+    public func kakaoLogin() -> Result<Bool, KakaoLoginError> {
         repository.kakaoLogin()
-    }
-    
-    
+    }  
 }

@@ -9,7 +9,7 @@ import UIKit
 
 class LoginView : UIView {
     
-    private let imgView = UIImageView().then { view in
+    public let imgView = UIImageView().then { view in
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         view.backgroundColor = .red

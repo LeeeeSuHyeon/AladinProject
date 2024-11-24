@@ -8,6 +8,6 @@
 import UIKit
 
 public protocol LoginRepositoryProtocol {
-    func kakaoLogin() -> Result<Bool, Error>
+    func kakaoLogin() -> Result<Bool, KakaoLoginError>
 }
 
