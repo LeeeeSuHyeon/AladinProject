@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if let kakaoAppkey = Bundle.main.infoDictionary?["KakaoAppKey"] as? String {
+            KakaoSDK.initSDK(appKey: kakaoAppkey)
+        } else {
+            print("kakaoAppKey - not find")
+        }
+        
         return true
     }
 

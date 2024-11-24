@@ -4,6 +4,28 @@
 <dict>
 	<key>APIKey</key>
 	<string>$(APIKey)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao$(KakaoAppKey)</string>
+			</array>
+		</dict>
+	</array>
+	<key>KakaoAPIKey</key>
+	<string>$(KakaoAPIKey)</string>
+	<key>KakaoAppKey</key>
+	<string>$(KakaoAppKey)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaompassauth</string>
+		<string>kakaolink</string>
+		<string>kakaoplus</string>
+		<string>kakaotalk</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
