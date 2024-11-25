@@ -17,7 +17,9 @@ class LoginViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     init() {
-        self.viewModel = LoginViewModel()
+        let loginRP = LoginRepository()
+        let loginUC = LoginUsecase(repository: loginRP)
+        self.viewModel = LoginViewModel(usecase: loginUC)
         self.loginView = LoginView()
         super.init(nibName: nil, bundle: nil)
         
