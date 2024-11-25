@@ -22,14 +22,12 @@ class MyPageView : UIView {
     private let nicknameLabel = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 18, weight: .bold)
         lbl.numberOfLines = 1
-        lbl.adjustsFontSizeToFitWidth = true
     }
     
     private let accountLabel = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 15, weight: .bold)
         lbl.numberOfLines = 1
         lbl.textColor = .systemGray4
-        lbl.adjustsFontSizeToFitWidth = true
     }
     
     override init(frame: CGRect) {
@@ -77,10 +75,12 @@ class MyPageView : UIView {
         }
     }
     
-    public func config(profileImage : String, nickname : String, account : String) {
-        self.profileImageView.kf.setImage(with: URL(string: profileImage), placeholder: UIImage(systemName: "person"))
+    public func config(profileImage : URL?, nickname : String, account : String) {
+        self.profileImageView.kf.setImage(with: profileImage, placeholder: UIImage(systemName: "person"))
         self.nicknameLabel.text = nickname
         self.accountLabel.text = account
     }
+    
+    
 }
 
