@@ -12,6 +12,7 @@ class MyPageView : UIView {
     private let profileImageView = UIImageView().then { view in
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.layer.cornerRadius = 50
     }
     
     private let grpInfo = UIStackView().then { view in
@@ -65,19 +66,11 @@ class MyPageView : UIView {
             make.leading.equalTo(profileImageView.snp.trailing).offset(20)
             make.trailing.equalToSuperview().inset(20)
         }
-        
-        nicknameLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-        }
-        
-        accountLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-        }
     }
     
     public func config(profileImage : URL?, nickname : String, account : String) {
         self.profileImageView.kf.setImage(with: profileImage, placeholder: UIImage(systemName: "person"))
-        self.nicknameLabel.text = nickname
+        self.nicknameLabel.text = nickname + "님"
         self.accountLabel.text = account
     }
     

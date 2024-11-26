@@ -25,6 +25,7 @@ public class MyPageRepository : MyPageRepositoryProtocol {
                 }
                 
                 let userInfo = UserInfo(profileImage: kakaoAccount.profile?.thumbnailImageUrl, nickname: kakaoAccount.profile?.nickname ?? "닉네임 없음", account: kakaoAccount.email ?? "이메일 없음")
+                print("kakaoAccount.emailNeedsAgreement \(String(describing: kakaoAccount.emailNeedsAgreement))")
                 completion(.success(userInfo))
             }
         }

@@ -15,6 +15,11 @@ class FavoriteView : UIView {
         lbl.textAlignment = .center
     }
     
+    private let lblCount = UILabel().then { lbl in
+        lbl.font = .systemFont(ofSize: 14, weight: .bold)
+        lbl.textColor = .systemGray4
+    }
+    
     let tableView = UITableView().then { view in
         view.register(FavoriteTableViewCell.self, forCellReuseIdentifier: FavoriteTableViewCell.id)
     }
@@ -33,6 +38,7 @@ class FavoriteView : UIView {
     
     private func setSubView(){
         [
+            lblCount,
             tableView,
             lblTitle
         ].forEach{self.addSubview($0)}
@@ -40,16 +46,24 @@ class FavoriteView : UIView {
     }
     
     private func setUI(){
-        
         lblTitle.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
         
-        tableView.snp.makeConstraints { make in
+        lblCount.snp.makeConstraints { make in
             make.top.equalTo(lblTitle.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(15)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(lblCount.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    public func config(count : Int) {
+        lblCount.text = "총 개수 : \(count)개"
     }
 }
