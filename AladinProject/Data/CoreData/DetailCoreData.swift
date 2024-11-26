@@ -36,6 +36,7 @@ public struct DetailCoreData : DetailCoreDataProtocol {
         object.setValue(item.title, forKey: "title")
         object.setValue(item.id, forKey: "id")
         object.setValue(item.type, forKey: "type")
+        object.setValue(Date(), forKey: "timestamp")
         
         do {
             try viewContext.save()

@@ -4,6 +4,7 @@
         <attribute name="author" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="imageURL" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
     </entity>

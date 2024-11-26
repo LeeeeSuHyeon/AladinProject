@@ -25,6 +25,7 @@ public class FavoriteCoreData : FavoriteCoreDataProtocol {
     
     public func fetchFavoriteItem() -> Result<[FavoriteItem], CoreDataError> {
         let fetchRequest = FavoriteItem.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
         
         do {
             let result = try viewContext?.fetch(fetchRequest)
