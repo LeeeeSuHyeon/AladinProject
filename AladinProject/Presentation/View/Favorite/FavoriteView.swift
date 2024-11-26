@@ -17,7 +17,7 @@ class FavoriteView : UIView {
     
     private let lblCount = UILabel().then { lbl in
         lbl.font = .systemFont(ofSize: 14, weight: .bold)
-        lbl.textColor = .systemGray4
+        lbl.textColor = .systemGray2
     }
     
     let tableView = UITableView().then { view in

@@ -70,6 +70,7 @@ class FavoriteViewController: UIViewController {
         output.itemList
             .do { itemList in
                 self.itemList.accept(itemList)
+                self.favoriteView.config(count: itemList.count)
             }
             .bind(to: favoriteView.tableView.rx.items) { tableView, indexPath, item in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteTableViewCell.id) as? FavoriteTableViewCell else {
