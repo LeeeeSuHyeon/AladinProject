@@ -1,13 +1,14 @@
 # 📚 AladinProject
 
-### 📌 프로젝트 개요
-AladinProject는 **알라딘 Open API**를 활용하여 Swift로 개발한 iOS 애플리케이션입니다.  
-개인 학습용 프로젝트로, **클린 아키텍처**, **RxSwift**, **MVVM 디자인 패턴**, **카카오 로그인**, **Core Data** 기능 등을 학습하고 활용하기 위해 개발했습니다.
-
----
 [알라딘 OpenAPI 메뉴얼](https://docs.google.com/document/d/1mX-WxuoGs8Hy-QalhHcvuV17n50uGI2Sg_GHofgiePE/edit?tab=t.0)
 
-### 🚀 주요 기능
+## 📌 프로젝트 개요
+- AladinProject는 **알라딘 Open API**를 활용하여 Swift로 개발한 iOS 애플리케이션입니다.  
+- 개인 학습용 프로젝트로, **클린 아키텍처**, **RxSwift**, **MVVM 디자인 패턴**, **카카오 로그인**, **Core Data** 기능 등을 학습하고 활용하기 위해 개발했습니다.
+
+---
+
+## 📖 주요 기능
 
 #### 1. 로그인
 - **카카오 로그인을 사용한 인증 구현**
@@ -51,30 +52,31 @@ AladinProject는 **알라딘 Open API**를 활용하여 Swift로 개발한 iOS �
 ### 🛠 기술 스택
 
 #### **언어 및 아키텍처**
-- **Swift**
-- **MVVM 디자인 패턴**
-- **클린 아키텍처**
-
-#### **라이브러리 및 프레임워크**
-- `Alamofire` (네트워크 통신)
-- `KakaoOpenSDK` (카카오 로그인)
-- `Kingfisher` (이미지 처리)
-- `RxSwift` & `RxCocoa` (반응형 프로그래밍)
-- `SnapKit` (레이아웃)
-- `Then` (코드 간결화)
-- `CoreData` (데이터 저장)
-- `Security` (Keychain 활용)
-- `UIKit` (UI 구성)
-
+- **프로그래밍 언어** : Swift
+- **개발 도구** : Xcode
+- **버전 관리** : Git, GitHub
+- **아키텍처 :** MVVM, Clean Architecture
+- **프레임 워크**
+    - `CoreData` (데이터 저장)
+    - `Security` (Keychain 활용)
+    - `UIKit` (UI 구성)
+- **라이브러리**
+    - `Alamofire` (네트워크 통신)
+    - `Kingfisher` (이미지 처리 및 캐싱)
+    - `RxSwift` & `RxCocoa` (반응형 프로그래밍)
+    - `SnapKit` (레이아웃)
+    - `Then` (코드 간결화)
+- **Open API** : 알라딘 Open API
+- **사용 SDK :** `KakaoOpenSDK` (카카오 로그인)
 ---
 
-### 🔒 보안
+## 🔒 보안
 - **API Key 관리**:  
   모든 API Key는 **Configuration settings file**로 관리하여 보안을 강화했습니다.
 
 ---
 
-### 📂 프로젝트 구조
+## 📂 프로젝트 구조
 
 ```plaintext
 📦AladinProject
@@ -100,7 +102,32 @@ AladinProject는 **알라딘 Open API**를 활용하여 Swift로 개발한 iOS �
  ┗ 📜Info.plist             # 앱 설정 정보
 
 ```
-### 📸 화면 구성
+
+## 💡 주요 학습 내용 및 인사이트
+
+1. **클린 아키텍처와 MVVM 패턴의 실제 적용**
+    - 각 레이어(`Data`, `Domain`, `Presentation`) 간의 데이터 흐름 이해할 수 있었습니다.
+    - 기능 추가, 삭제 시 유지보수를 직접 진행하면서 클린 아키텍처의 효율성과 중요성을 느꼈습니다.
+2. **코드 베이스 UI 구현**
+    - `SnapKit`을 활용하여 간결하고 효율적으로 오토레이아웃을 구현했습니다.
+    - `Then`을 이용하여 간결하고 가독성 높은 UI 코드를 구현했습니다.
+3. **다양한 UI 컴포넌트 활용**
+    - `UICollectionViewCompositionalLayout`을 이용하여 복잡한 레이아웃을 구현하는 방법을 배웠습니다.
+4. **네트워킹 및 비동기 처리**
+    - `Alamofire`를 이용하여 효율적인 API 통신을 구현했습니다.
+    - `MVVM 패턴의 Input, Output 구조과 RxSwift`를 적용하여 반응형 프로그래밍을 경험해보면서 데이터 처리 흐름을 이해할 수 있었습니다.
+5. **데이터 저장 및 관리**
+    - `CoreData`를 이용한 로컬 데이터 베이스에 데이터를 저장하고 관리해보는 경험을 했습니다.
+    - `Keychain`을 이용하여 데이터를 안전하게 관리하는 방법을 배웠습니다.
+6. **인증 프로세스 구현**
+    - `카카오 로그인` 을 구현하며 `Keychain`을 이용한 토큰 관리와 카카오 계정 정보를 연동하는 과정을 경험할 수 있었습니다.
+7. **Open API 활용**
+    - 알라딘 Open API 활용하여 API 요청 파라미터, 응답(Response), API Key 관리를 경험해보면서 API를 효과적으로 분석하는 방법을 학습했습니다.
+
+
+---
+
+## 📸 화면 구성
 #### 1. 로그인 뷰
 - 카카오 로그인 
 <img width="200" height="435" alt="비교" src="https://github.com/user-attachments/assets/1d8920f3-4849-4ac1-bab7-4212ca428174">
@@ -120,12 +147,3 @@ AladinProject는 **알라딘 Open API**를 활용하여 Swift로 개발한 iOS �
 #### 5. 검색 뷰
 - 최근 검색 기록과 도서 검색 결과 표시
 <img width="200" height="435" alt="비교" src="https://github.com/user-attachments/assets/86921a0a-0988-4a10-b48f-b87cd4861c0d">
-
---- 
-### 🤝 배우고 느낀 점
-1. **클린 아키텍처 구조**로 설계하고 구현한 뒤, 기능 추가나 삭제 시 유지보수를 직접 진행해보면서 클린 아키텍처의 효율성과 중요성을 느끼고 배울 수 있었습니다.
-2. **Keychain**과 **CoreData**를 통해 데이터 보안 및 로컬 데이터 관리 방법을 배우고 안전하고 효율적인 데이터 관리 방법을 배웠습니다.
-3. **UICollectionViewCompositionalLayout**를 활용하여 복잡한 UI를 효과적으로 구현하는 방법을 배웠습니다.
-4. Open API 활용하여 API 요청 파라미터, 응답(Response), API Key 관리를 경험해보면서 API를 분석하고 효과적으로 활용할 수 있었습니다.
-5. **MVVM 패턴의 Input, Output 구조**과 **RxSwift**를 적용하여 반응형 프로그래밍을 경험해보면서 데이터 처리 흐름을 이해할 수 있었습니다.
-6. **카카오 로그인**을 구현하며 Keychain을 이용한 토큰 관리와 카카오 계정 정보를 연동하는 과정을 경험할 수 있었습니다.
