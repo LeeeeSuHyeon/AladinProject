@@ -1,4 +1,5 @@
 # 📚 AladinProject
+### 개발 기간: 2024.11.11. – 2024.11.27.
 
 [알라딘 OpenAPI 메뉴얼](https://docs.google.com/document/d/1mX-WxuoGs8Hy-QalhHcvuV17n50uGI2Sg_GHofgiePE/edit?tab=t.0)
 
